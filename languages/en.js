@@ -1,22 +1,6 @@
-window.angularTranslationsLoaded('en', {
-  "RULES_OF_TICTACTOE": "Rules of TicTacToe",
-  "YOUR_SNAKE_COLOR_IS": "Your snake color is {{color}}",
-  "COLOR_SCORE_IS": "{{color}}: {{score}}",
-  "BLUE": "Blue",
-  "RED": "Red",
-  "BROWN": "Brown",
-  "PURPLE": "Purple",
-  "PINK": "Pink",
-  "YELLOW": "Yellow",
-  "ORANGE": "Orange",
-  "SILVER": "Silver",
-  "WHITE": "White",
-  "BLACK": "Black",
-  "GREEN": "Green",
-  "CYAN": "Cyan",
-  "RULES_OF_SNAKE": "Rules of SNAKE",
-  "RULES_SLIDE1": "You are a hungry snake. Eat the green food to fill your belly and grow.",
-  "RULES_SLIDE2": "But be careful the more you eat the faster you get. Don't crash into the wall.",
-  "RULES_SLIDE3": "And don't crash into your own tail.",
-  "CLOSE": "Close"
+window.angularTranslationsLoaded('en',{
+"RULES_OF_TICTACTOE":"Rules of TicTacToe",
+"RULES_SLIDE1":"You and your opponent take turns to mark the grid in an empty spot. The first mark is X, then O, then X, then O, etc.",
+"RULES_SLIDE2":"The first to mark a whole row, column or diagonal wins.",
+"CLOSE":"Close"
 });
