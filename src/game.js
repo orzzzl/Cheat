@@ -49,15 +49,21 @@ angular.module('myApp')
     }
 
     $scope.userClickedSomething = function (userChoices) {
-      console.log("hhh");
-      var circle = new createjs.Shape();
-      circle.graphics.beginFill("DeepSkyBlue").drawCircle(0, 0, 50);
-      circle.x = 500;
-      circle.y = 500;
-      stage.addChild(circle);
-      addpic("imgs/cards/1.png");
+      console.log("Clicked");
+      sendUserMove(gameLogic.createMove(state, turnIndex, userChoices));
+    }
+
+    $scope.initGame = function () {
+      var baseHead = "imgs/cards/";
+      var baseTail = ".png";
+      for (var i = 1; i <= 20; i ++) {
+        var src = baseHead + i + baseTail;
+        console.log (src);
+        var x = 40 * i;
+        var y = 900;
+        addpic(src, x, y);
+      }
       updateStage();
-      //sendUserMove(gameLogic.createMove(state, turnIndex, userChoices));
     };
 
     /*************** My Helper functions ***************/
@@ -65,11 +71,13 @@ angular.module('myApp')
       stage.update();
     }
 
-    function addpic (src) {
+    function addpic (src, _x, _y) {
       var tmpImg = new Image();
       tmpImg.onload = updateStage;
       tmpImg.src = src;
       var image = new createjs.Bitmap(tmpImg);
+      image.x = _x;
+      image.y = _y;
       stage.addChild(image);
     }
 
