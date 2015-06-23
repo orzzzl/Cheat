@@ -60,7 +60,7 @@ angular.module('myApp')
         var src = baseHead + i + baseTail;
         console.log (src);
         var x = 40 * i;
-        var y = 900;
+        var y = 800;
         addpic(src, x, y);
       }
       updateStage();
@@ -75,9 +75,11 @@ angular.module('myApp')
       var tmpImg = new Image();
       tmpImg.onload = updateStage;
       tmpImg.src = src;
+      tmpImg.height = 200;
       var image = new createjs.Bitmap(tmpImg);
-      image.x = _x;
-      image.y = _y;
+      image.set({x: _x, y: _y});
+      image.scaleX=2.0;
+      image.scaleY=2.0;
       stage.addChild(image);
     }
 
