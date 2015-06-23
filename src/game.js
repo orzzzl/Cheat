@@ -1,12 +1,11 @@
-
 angular.module('myApp')
-  .controller('Ctrl',
-      ['$scope', '$log', '$timeout',
-       'gameService', 'gameLogic',
-       'resizeGameAreaService', '$translate',
-      function ($scope, $log, $timeout,
-        gameService, gameLogic,
-        resizeGameAreaService, $translate) {
+.controller('Ctrl',
+['$scope', '$log', '$timeout',
+  'gameService', 'gameLogic',
+  'resizeGameAreaService', '$translate',
+  function ($scope, $log, $timeout,
+            gameService, gameLogic,
+            resizeGameAreaService, $translate) {
     'use strict';
 
     $log.info($translate('RULES_OF_TICTACTOE')); // Example of using $translate
@@ -16,6 +15,7 @@ angular.module('myApp')
 
     var canMakeMove = false;
     var state = null;
+    var stage = new createjs.Stage("demoCanvas");
     var turnIndex = null;
 
     function sendComputerMove() {
@@ -28,12 +28,12 @@ angular.module('myApp')
         state.board = gameLogic.getInitialBoard();
       }
       canMakeMove = params.turnIndexAfterMove >= 0 && // game is ongoing
-        params.yourPlayerIndex === params.turnIndexAfterMove; // it's my turn
+      params.yourPlayerIndex === params.turnIndexAfterMove; // it's my turn
       turnIndex = params.turnIndexAfterMove;
 
       // Is it the computer's turn?
       var isComputerTurn = canMakeMove &&
-          params.playersInfo[params.yourPlayerIndex].playerId === '';
+      params.playersInfo[params.yourPlayerIndex].playerId === '';
       if (isComputerTurn) {
         canMakeMove = false;
         sendComputerMove();
@@ -49,16 +49,30 @@ angular.module('myApp')
     }
 
     $scope.userClickedSomething = function (userChoices) {
-      console.log ("hhh");
-      var stage = new createjs.Stage("demoCanvas");
+      console.log("hhh");
       var circle = new createjs.Shape();
-      circle.graphics.beginFill("DeepSkyBlue").drawCircle(0, 0, 500);
+      circle.graphics.beginFill("DeepSkyBlue").drawCircle(0, 0, 50);
       circle.x = 500;
       circle.y = 500;
       stage.addChild(circle);
-      stage.update();
+      addpic("imgs/cards/1.png");
+      updateStage();
       //sendUserMove(gameLogic.createMove(state, turnIndex, userChoices));
     };
+
+    /*************** My Helper functions ***************/
+    function updateStage() {
+      stage.update();
+    }
+
+    function addpic (src) {
+      var tmpImg = new Image();
+      tmpImg.onload = updateStage;
+      tmpImg.src = src;
+      var image = new createjs.Bitmap(tmpImg);
+      stage.addChild(image);
+    }
+
 
     gameService.setGame({
       minNumberOfPlayers: 2,
