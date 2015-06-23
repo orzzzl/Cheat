@@ -52,9 +52,9 @@ angular.module('myApp')
       console.log ("hhh");
       var stage = new createjs.Stage("demoCanvas");
       var circle = new createjs.Shape();
-      circle.graphics.beginFill("DeepSkyBlue").drawCircle(0, 0, 50);
-      circle.x = 100;
-      circle.y = 100;
+      circle.graphics.beginFill("DeepSkyBlue").drawCircle(0, 0, 500);
+      circle.x = 500;
+      circle.y = 500;
       stage.addChild(circle);
       stage.update();
       //sendUserMove(gameLogic.createMove(state, turnIndex, userChoices));
