@@ -9,6 +9,8 @@
   <meta name="description" content="TicTacToe game">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
+  <script src="https://code.createjs.com/createjs-2015.05.21.min.js"></script>
+
   <!-- build:js http://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular.min.js -->
   <script crossorigin="anonymous" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular.js"></script>
   <!-- /build -->
@@ -72,7 +74,8 @@
     </div>
   </div>
 
-  <div id="gameArea">
+  <div id="gameArea" >
+      <canvas id="demoCanvas" ng-click="userClickedSomething(77)"></canvas>
   </div>
 
 </body>

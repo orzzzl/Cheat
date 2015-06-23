@@ -396,7 +396,7 @@ angular.module('myApp', ['ngTouch', 'ui.bootstrap'])
   /**
    * Create computer move operations.
    */
-  function createComputerMove(state, turnIndexBeforeMove) {
+  function getRandomMove(state, turnIndexBeforeMove) {
     var possibleMove = [];
 
     switch(state.stage) {
@@ -444,7 +444,7 @@ angular.module('myApp', ['ngTouch', 'ui.bootstrap'])
    * Get the initial move which shuffles and deals all the cards.
    * @returns {Array}
    */
-  function getInitialMove() {
+  function getInitialBoard() {
     var operations = [],
     white = [],
     black = [],
@@ -695,8 +695,8 @@ angular.module('myApp', ['ngTouch', 'ui.bootstrap'])
   return {
     isMoveOk: isMoveOk,
     isEmptyObj: isEmptyObj,
-    createComputerMove: createComputerMove,
-    getInitialMove: getInitialMove,
+    getRandomMove: getRandomMove,
+    getInitialBoard: getInitialBoard,
     getClaimMove: getClaimMove,
     getDeclareCheaterMove: getDeclareCheaterMove,
     getMoveCheckIfCheated: getMoveCheckIfCheated,
