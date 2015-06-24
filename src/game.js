@@ -11,10 +11,10 @@ angular.module('myApp')
     $log.info($translate('RULES_OF_TICTACTOE')); // Example of using $translate
 
     // TODO: choose your width-to-height ratio (1 means the board is square).
-    resizeGameAreaService.setWidthToHeight(1);
+    resizeGameAreaService.setWidthToHeight(0.6);
 
     var bottomPos = 800;
-    var interPos =  40;
+    var interPos =  20;
     var cardlength = 100;
     var canMakeMove = false;
     var state = null;
@@ -22,7 +22,7 @@ angular.module('myApp')
     var turnIndex = null;
     var cardsCnt = 0;
     var mycards = [];
-    var mycardsVal = [3];
+    var mycardsVal = [3,1,2,4,5,6,7,8,9,10,41,42,43,44,45,46,47,48,49,50];
     function sendComputerMove() {
       gameService.makeMove(gameLogic.getRandomMove(state, turnIndex));
     }
@@ -61,13 +61,13 @@ angular.module('myApp')
     $scope.initGame = function () {
 
       var n = mycardsVal.length;
-      var start = (1000 - n * interPos) / 2;
+      var start = (600 - n * interPos) / 2;
       for (var i = 1; i <= n; i ++) {
         var x = interPos * (i - 1) + start - cardlength;
         var y = bottomPos;
         addpic(mycardsVal [i - 1], x, y);
       }
-      createButton ("Cancel", 800, 700, resetAll);
+      createButton ("Cancel", 400, 700, resetAll);
       updateStage();
     };
 
