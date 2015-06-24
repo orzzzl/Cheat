@@ -13,16 +13,16 @@ angular.module('myApp')
     // TODO: choose your width-to-height ratio (1 means the board is square).
     resizeGameAreaService.setWidthToHeight(0.6);
 
-    var bottomPos = 800;
-    var interPos =  20;
-    var cardlength = 100;
+    var bottomPos = 750;
+    var interPos =  25;
+    var cardlength = 50;
     var canMakeMove = false;
     var state = null;
     var stage = new createjs.Stage("demoCanvas");
     var turnIndex = null;
     var cardsCnt = 0;
     var mycards = [];
-    var mycardsVal = [3,1,2,4,5,6,7,8,9,10,41,42,43,44,45,46,47,48,49,50];
+    var mycardsVal = [3,1,2,4,5,6,7,8,9,10,41,42,43,44,45,46,47,48,49,50,21,22,23,24,25,26,27,28,29,30];
     function sendComputerMove() {
       gameService.makeMove(gameLogic.getRandomMove(state, turnIndex));
     }
@@ -59,19 +59,32 @@ angular.module('myApp')
     }
 
     $scope.initGame = function () {
-
-      var n = mycardsVal.length;
-      var start = (600 - n * interPos) / 2;
-      for (var i = 1; i <= n; i ++) {
-        var x = interPos * (i - 1) + start - cardlength;
-        var y = bottomPos;
-        addpic(mycardsVal [i - 1], x, y);
-      }
-      createButton ("Cancel", 400, 700, resetAll);
+      displayCards(20);
+      createButton ("Cancel", 400, bottomPos - 100, resetAll);
       updateStage();
     };
 
     /*************** My Helper functions ***************/
+    function displayCards (limit) {
+      var n = mycardsVal.length;
+      var N;
+      if (n > limit)
+        N = limit;
+      else
+        N = n;
+      var start = (600 - N * interPos) / 2;
+      for (var i = 1; i <= n; i ++) {
+        var x = interPos * (i - 1) + start - cardlength;
+        var y = bottomPos;
+        if (i > limit)
+          y += 50;
+        if (i > limit)
+          x -= (interPos * limit + start - cardlength);
+        addpic(mycardsVal [i - 1], x, y);
+      }
+    }
+
+
     function updateStage() {
       stage.update();
     }
