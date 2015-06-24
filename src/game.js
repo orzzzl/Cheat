@@ -17,6 +17,7 @@ angular.module('myApp')
     var state = null;
     var stage = new createjs.Stage("demoCanvas");
     var turnIndex = null;
+    var cardsCnt = 0;
 
     function sendComputerMove() {
       gameService.makeMove(gameLogic.getRandomMove(state, turnIndex));
@@ -83,9 +84,15 @@ angular.module('myApp')
       image.clicked = 0;
       image.on("click", function (){
         if (image.clicked === 0) {
+          cardsCnt ++;
+          if (cardsCnt > 4) {
+            cardsCnt --;
+            return;
+          }
           image.y -= 30;
           image.clicked = 1;
         } else {
+          cardsCnt --;
           image.y += 30;
           image.clicked = 0;
         }
