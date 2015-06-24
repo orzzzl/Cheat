@@ -13,12 +13,16 @@ angular.module('myApp')
     // TODO: choose your width-to-height ratio (1 means the board is square).
     resizeGameAreaService.setWidthToHeight(1);
 
+    var bottomPos = 800;
+    var interPos =  40;
+    var cardlength = 100;
     var canMakeMove = false;
     var state = null;
     var stage = new createjs.Stage("demoCanvas");
     var turnIndex = null;
     var cardsCnt = 0;
     var mycards = [];
+    var mycardsVal = [3];
     function sendComputerMove() {
       gameService.makeMove(gameLogic.getRandomMove(state, turnIndex));
     }
@@ -55,12 +59,15 @@ angular.module('myApp')
     }
 
     $scope.initGame = function () {
-      for (var i = 1; i <= 13; i ++) {
-        var x = 40 * i;
-        var y = 800;
-        addpic(i, x, y);
+
+      var n = mycardsVal.length;
+      var start = (1000 - n * interPos) / 2;
+      for (var i = 1; i <= n; i ++) {
+        var x = interPos * (i - 1) + start - cardlength;
+        var y = bottomPos;
+        addpic(mycardsVal [i - 1], x, y);
       }
-      createButton ("Cancel", 800, 700);
+      createButton ("Cancel", 800, 700, resetAll);
       updateStage();
     };
 
@@ -69,7 +76,7 @@ angular.module('myApp')
       stage.update();
     }
 
-    function createButton (message, _x, _y) {
+    function createButton (message, _x, _y, func) {
       var reset = new createjs.Shape();
       reset.graphics.beginFill("DeepSkyBlue").drawRoundRect(0, 0, 150, 60, 10);
       var label = new createjs.Text (message, "bold 24px Arial", "#FFFFFF");
@@ -78,19 +85,16 @@ angular.module('myApp')
       label.x = 150/2;
       label.y = 60/2;
 
-
       var button = new createjs.Container();
       button.name = message;
       button.x = _x;
       button.y = _y;
       button.addChild(reset, label);
-
-      button.on("click", function () {
-        resetAll ();
-      });
-
+      button.on("click", func);
       stage.addChild(button);
     }
+
+
 
     function resetAll () {
       for (var i = 0; i < mycards.length; i ++)
