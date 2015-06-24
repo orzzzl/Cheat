@@ -54,14 +54,10 @@ angular.module('myApp')
     }
 
     $scope.initGame = function () {
-      var baseHead = "imgs/cards/";
-      var baseTail = ".png";
-      for (var i = 1; i <= 20; i ++) {
-        var src = baseHead + i + baseTail;
-        console.log (src);
+      for (var i = 1; i <= 13; i ++) {
         var x = 40 * i;
         var y = 800;
-        addpic(src, x, y);
+        addpic(i, x, y);
       }
       updateStage();
     };
@@ -71,15 +67,30 @@ angular.module('myApp')
       stage.update();
     }
 
-    function addpic (src, _x, _y) {
+    function addpic (i, _x, _y) {
       var tmpImg = new Image();
+      var baseHead = "imgs/cards/";
+      var baseTail = ".png";
+      var src = baseHead + i + baseTail;
       tmpImg.onload = updateStage;
       tmpImg.src = src;
       tmpImg.height = 200;
       var image = new createjs.Bitmap(tmpImg);
       image.set({x: _x, y: _y});
-      image.scaleX=2.0;
-      image.scaleY=2.0;
+      image.scaleX = 2.0;
+      image.scaleY = 2.0;
+      image.name = i;
+      image.clicked = 0;
+      image.on("click", function (){
+        if (image.clicked === 0) {
+          image.y -= 30;
+          image.clicked = 1;
+        } else {
+          image.y += 30;
+          image.clicked = 0;
+        }
+        updateStage();
+      })
       stage.addChild(image);
     }
 
