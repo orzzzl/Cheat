@@ -18,7 +18,7 @@ angular.module('myApp')
     var stage = new createjs.Stage("demoCanvas");
     var turnIndex = null;
     var cardsCnt = 0;
-
+    var mycards = [];
     function sendComputerMove() {
       gameService.makeMove(gameLogic.getRandomMove(state, turnIndex));
     }
@@ -50,7 +50,7 @@ angular.module('myApp')
     }
 
     $scope.userClickedSomething = function (userChoices) {
-      console.log("Clicked");
+      alert("Clicked");
       sendUserMove(gameLogic.createMove(state, turnIndex, userChoices));
     }
 
@@ -60,6 +60,7 @@ angular.module('myApp')
         var y = 800;
         addpic(i, x, y);
       }
+      createResetButton ();
       updateStage();
     };
 
@@ -67,6 +68,54 @@ angular.module('myApp')
     function updateStage() {
       stage.update();
     }
+
+    function createResetButton () {
+      var reset = new createjs.Shape();
+      reset.graphics.beginFill("DeepSkyBlue").drawRoundRect(0, 0, 150, 60, 10);
+      var label = new createjs.Text ("Cancel", "bold 24px Arial", "#FFFFFF");
+      label.textAlign = "center";
+      label.textBaseline = "middle";
+      label.x = 150/2;
+      label.y = 60/2;
+
+
+      var button = new createjs.Container();
+      button.name = "Cancel";
+      button.x = 800;
+      button.y = 700;
+      button.addChild(reset, label);
+
+      button.on("click", function () {
+        resetAll ();
+      });
+
+      stage.addChild(button);
+    }
+
+    function resetAll () {
+      for (var i = 0; i < mycards.length; i ++)
+          clearcard(mycards [i]);
+      updateStage();
+    }
+
+    function setcard (image) {
+      cardsCnt ++;
+      if (cardsCnt > 4) {
+        cardsCnt --;
+        return;
+      }
+      image.y -= 30;
+      image.clicked = 1;
+    }
+
+    function clearcard (image) {
+      if (image.clicked === 0)
+          return;
+      cardsCnt --;
+      image.y += 30;
+      image.clicked = 0;
+    }
+
 
     function addpic (i, _x, _y) {
       var tmpImg = new Image();
@@ -84,20 +133,13 @@ angular.module('myApp')
       image.clicked = 0;
       image.on("click", function (){
         if (image.clicked === 0) {
-          cardsCnt ++;
-          if (cardsCnt > 4) {
-            cardsCnt --;
-            return;
-          }
-          image.y -= 30;
-          image.clicked = 1;
+          setcard(image);
         } else {
-          cardsCnt --;
-          image.y += 30;
-          image.clicked = 0;
+          clearcard(image);
         }
         updateStage();
-      })
+      });
+      mycards.push (image);
       stage.addChild(image);
     }
 
