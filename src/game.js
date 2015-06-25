@@ -162,11 +162,15 @@ angular.module('myApp')
 
     function setcard (image) {
       showButton("Make Claim");
+      hideButton("1");
+      hideButton("2");
+      hideButton("3");
       cardsCnt ++;
       if (cardsCnt > 4) {
         cardsCnt --;
         return;
       }
+      console.log (image.name);
       image.y -= 30;
       image.clicked = 1;
     }
