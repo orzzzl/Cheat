@@ -60,16 +60,19 @@ angular.module('myApp')
     }
 
     $scope.initGame = function () {
+
       displayCards(20);
       createButton ("Cancel", 400, bottomPos - 100, resetAll);
       createButton("Make Claim", 200, bottomPos - 100, Claim);
       hideButton("Make Claim");
-      createSmallButton("1", 80, bottomPos - 100, function () {alert("1")});
-      createSmallButton("2", 180, bottomPos - 100, function () {alert("2")});
-      createSmallButton("3", 280, bottomPos - 100, function () {alert("3")});
+      createOpts ();
+      createSmallButton("1", 80, bottomPos, function () {alert("1")});
+      createSmallButton("2", 180, bottomPos, function () {alert("2")});
+      createSmallButton("3", 280, bottomPos, function () {alert("3")});
       hideButton("1");
       hideButton("2");
       hideButton("3");
+      hideButton("ops");
       updateStage();
     };
 
@@ -84,11 +87,22 @@ angular.module('myApp')
       updateStage();
     }
 
+    function createOpts () {
+      var shape = new createjs.Shape();
+      shape.graphics.beginFill("#006400").drawRect(0, 0, 600, 400);
+      shape.x = 0;
+      shape.y = 710;
+      stage.addChild (shape);
+      buttons["ops"] = shape;
+    }
+
     function Claim () {
       hideButton("Make Claim");
+      showButton("ops");
       showButton("1");
       showButton("2");
       showButton("3");
+      updateStage();
     }
     function displayCards (limit) {
       var n = mycardsVal.length;
@@ -165,6 +179,7 @@ angular.module('myApp')
       hideButton("1");
       hideButton("2");
       hideButton("3");
+      hideButton("ops");
       cardsCnt ++;
       if (cardsCnt > 4) {
         cardsCnt --;
@@ -179,6 +194,7 @@ angular.module('myApp')
       hideButton("1");
       hideButton("2");
       hideButton("3");
+      hideButton("ops");
       if (image.clicked === 0)
           return;
       cardsCnt --;
