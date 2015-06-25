@@ -22,6 +22,7 @@ angular.module('myApp')
     var turnIndex = null;
     var cardsCnt = 0;
     var mycards = [];
+    var buttons = {};
     var mycardsVal = [3,1,2,4,5,6,7,8,9,10,41,42,43,44,45,46,47,48,49,50,21,22,23,24,25,26,27,28,29,30];
     function sendComputerMove() {
       gameService.makeMove(gameLogic.getRandomMove(state, turnIndex));
@@ -61,10 +62,34 @@ angular.module('myApp')
     $scope.initGame = function () {
       displayCards(20);
       createButton ("Cancel", 400, bottomPos - 100, resetAll);
+      createButton("Make Claim", 200, bottomPos - 100, Claim);
+      hideButton("Make Claim");
+      createSmallButton("1", 80, bottomPos - 100, function () {alert("1")});
+      createSmallButton("2", 180, bottomPos - 100, function () {alert("2")});
+      createSmallButton("3", 280, bottomPos - 100, function () {alert("3")});
+      hideButton("1");
+      hideButton("2");
+      hideButton("3");
       updateStage();
     };
 
     /*************** My Helper functions ***************/
+    function showButton (message) {
+      buttons [message].visible = true;
+      updateStage();
+    }
+
+    function hideButton (message) {
+      buttons [message].visible = false;
+      updateStage();
+    }
+
+    function Claim () {
+      hideButton("Make Claim");
+      showButton("1");
+      showButton("2");
+      showButton("3");
+    }
     function displayCards (limit) {
       var n = mycardsVal.length;
       var N;
@@ -89,6 +114,25 @@ angular.module('myApp')
       stage.update();
     }
 
+    function createSmallButton (message, _x, _y, func) {
+      var reset = new createjs.Shape();
+      reset.graphics.beginFill("DeepSkyBlue").drawRoundRect(0, 0, 60, 60, 10);
+      var label = new createjs.Text (message, "bold 24px Arial", "#FFFFFF");
+      label.textAlign = "center";
+      label.textBaseline = "middle";
+      label.x = 60/2;
+      label.y = 60/2;
+
+      var button = new createjs.Container();
+      button.name = message;
+      button.x = _x;
+      button.y = _y;
+      button.addChild(reset, label);
+      button.on("click", func);
+      buttons[message] = button;
+      stage.addChild(button);
+    }
+
     function createButton (message, _x, _y, func) {
       var reset = new createjs.Shape();
       reset.graphics.beginFill("DeepSkyBlue").drawRoundRect(0, 0, 150, 60, 10);
@@ -104,6 +148,7 @@ angular.module('myApp')
       button.y = _y;
       button.addChild(reset, label);
       button.on("click", func);
+      buttons[message] = button;
       stage.addChild(button);
     }
 
@@ -116,6 +161,7 @@ angular.module('myApp')
     }
 
     function setcard (image) {
+      showButton("Make Claim");
       cardsCnt ++;
       if (cardsCnt > 4) {
         cardsCnt --;
@@ -126,9 +172,16 @@ angular.module('myApp')
     }
 
     function clearcard (image) {
+      hideButton("1");
+      hideButton("2");
+      hideButton("3");
       if (image.clicked === 0)
           return;
       cardsCnt --;
+      if (cardsCnt === 0)
+        hideButton("Make Claim");
+      else
+        showButton("Make Claim");
       image.y += 30;
       image.clicked = 0;
     }
