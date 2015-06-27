@@ -24,6 +24,7 @@ angular.module('myApp')
     var mycards = [];
     var buttons = {};
     var mycardsVal = [3,1,2,4,5,6,7,8,9,10,41,42,43,44,45,46,47,48,49,50,21,22,23,24,25,26,27,28,29,30];
+    var cardsClickable = 1;
     function sendComputerMove() {
       gameService.makeMove(gameLogic.getRandomMove(state, turnIndex));
     }
@@ -97,6 +98,7 @@ angular.module('myApp')
     }
 
     function Claim () {
+      cardsClickable = 0;
       hideButton("Make Claim");
       showButton("ops");
       showButton("1");
@@ -169,6 +171,7 @@ angular.module('myApp')
 
 
     function resetAll () {
+      cardsClickable = 1;
       for (var i = 0; i < mycards.length; i ++)
           clearcard(mycards [i]);
       updateStage();
@@ -222,6 +225,7 @@ angular.module('myApp')
       image.name = i;
       image.clicked = 0;
       image.on("click", function (){
+        if (cardsClickable === 0)    return;
         if (image.clicked === 0) {
           setcard(image);
         } else {
