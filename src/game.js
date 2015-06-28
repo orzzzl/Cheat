@@ -8,6 +8,7 @@ angular.module('myApp')
             resizeGameAreaService, $translate) {
     'use strict';
 
+
     $log.info($translate('RULES_OF_TICTACTOE')); // Example of using $translate
 
     // TODO: choose your width-to-height ratio (1 means the board is square).
@@ -32,7 +33,7 @@ angular.module('myApp')
     function updateUI(params) {
       state = params.stateAfterMove;
       if (state.board === undefined) {
-        state.board = gameLogic.getInitialBoard();
+      //  state.board = gameLogic.getInitialBoard();
       }
       canMakeMove = params.turnIndexAfterMove >= 0 && // game is ongoing
       params.yourPlayerIndex === params.turnIndexAfterMove; // it's my turn
@@ -45,6 +46,7 @@ angular.module('myApp')
         canMakeMove = false;
         sendComputerMove();
       }
+    //  console.log (gameService.makeMove (gameLogic.getInitialBoard()));
     }
 
     function sendUserMove(move) {
