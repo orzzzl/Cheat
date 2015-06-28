@@ -266,7 +266,7 @@ angular.module('myApp', ['ngTouch', 'ui.bootstrap'])
    * Get a card string according the index
    * @param i
    * @returns {*}
-   */
+   */   
   function getCard(i) {
     check(i >= 0 && i <52, "Illegal index");
     var suit,
