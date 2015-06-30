@@ -24,7 +24,7 @@ angular.module('myApp')
     var cardsCnt = 0;
     var mycards = [];
     var buttons = {};
-    var mycardsVal = [3,1,2,4,5,6,7,8,9,10,41,42,43,44,45,46,47,48,49,50,21,22,23,24,25,26,27,28,29,30];
+    var mycardsVal= [];
     var cardsClickable = 1;
     function sendComputerMove() {
       gameService.makeMove(gameLogic.getRandomMove(state, turnIndex));
@@ -32,13 +32,37 @@ angular.module('myApp')
 
     function updateUI(params) {
       state = params.stateAfterMove;
-      if (state.board === undefined) {
-      //  state.board = gameLogic.getInitialBoard();
+      // If the state is empty, first initialize the board...
+      if (gameLogic.isEmptyObj(state)) {
+        if (params.yourPlayerIndex === 0) {
+          gameService.makeMove(gameLogic.getInitialMove());
+        }
+        return;
       }
-      canMakeMove = params.turnIndexAfterMove >= 0 && // game is ongoing
+      console.log (params.stateAfterMove);
+      // Get the new state
+      $scope.state = params.stateAfterMove;
+      // Get the current player index (For creating computer move...)
+      $scope.currIndex = params.turnIndexAfterMove;
+      $scope.isYourTurn = params.turnIndexAfterMove >= 0 && // game is ongoing
       params.yourPlayerIndex === params.turnIndexAfterMove; // it's my turn
+      $scope.isAiMode = $scope.isYourTurn
+
+      && params.playersInfo[params.yourPlayerIndex].playerId === '';
+      $scope.playMode = params.playMode;
+
+      // Get the cards for player one area, player two area and middle area
+      $scope.middle = $scope.state.middle.clone();
       turnIndex = params.turnIndexAfterMove;
 
+      $scope.playerOneCards = $scope.state.white.clone();
+      $scope.playerTwoCards = $scope.state.black.clone();
+      mycardsVal = [];
+      for (var i = 0; i < $scope.playerOneCards.length; i ++) {
+        var tmp = "card" + i;
+        mycardsVal.push($scope.state [tmp]);
+      }
+      displayCards(20);
       // Is it the computer's turn?
       var isComputerTurn = canMakeMove &&
       params.playersInfo[params.yourPlayerIndex].playerId === '';
@@ -46,8 +70,10 @@ angular.module('myApp')
         canMakeMove = false;
         sendComputerMove();
       }
-    //  console.log (gameService.makeMove (gameLogic.getInitialBoard()));
+      console.log (gameLogic.getInitialMove());
     }
+
+
 
     function sendUserMove(move) {
       if (!canMakeMove) {
@@ -63,8 +89,6 @@ angular.module('myApp')
     }
 
     $scope.initGame = function () {
-
-      displayCards(20);
       createButton ("Cancel", 400, bottomPos - 100, resetAll);
       createButton("Make Claim", 200, bottomPos - 100, Claim);
       hideButton("Make Claim");

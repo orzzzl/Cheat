@@ -314,6 +314,7 @@
      */
     function getCard(i) {
       check(i >= 0 && i <52, "Illegal index");
+      /*
       var suit,
       rank;
 
@@ -370,6 +371,8 @@
       }
 
       return suit + rank;
+      */
+      return i;
     }
 
     /**
