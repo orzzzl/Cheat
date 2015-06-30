@@ -15,6 +15,7 @@ angular.module('myApp')
     resizeGameAreaService.setWidthToHeight(0.6);
 
     var bottomPos = 750;
+    var upperPos = 100;
     var interPos =  25;
     var cardlength = 50;
     var canMakeMove = false;
@@ -63,7 +64,10 @@ angular.module('myApp')
         var tmp = "card" + $scope.playerOneCards[i];
         mycardsVal.push($scope.state [tmp]);
       }
+      stage.removeAllChildren ();
+      displayOppCards (20);
       displayCards(20);
+      $scope.initGame ();
       // Is it the computer's turn?
       var isComputerTurn = canMakeMove &&
       params.playersInfo[params.yourPlayerIndex].playerId === '';
@@ -172,6 +176,25 @@ angular.module('myApp')
       }
     }
 
+    function displayOppCards (limit) {
+      var n = $scope.playerTwoCards.length;
+      var N;
+      if (n > limit)
+        N = limit;
+      else
+        N = n;
+      var start = (600 - N * interPos) / 2;
+      for (var i = 1; i <= n; i ++) {
+        var x = interPos * (i - 1) + start - cardlength;
+        var y = upperPos;
+        if (i > limit)
+          y += 50;
+        if (i > limit)
+          x -= (interPos * limit + start - cardlength);
+        addpic("qb2fv", x, y);
+      }
+    }
+
 
     function updateStage() {
       stage.update();
@@ -193,6 +216,7 @@ angular.module('myApp')
       button.addChild(reset, label);
       button.on("click", func);
       buttons[message] = button;
+      button.z = 2;
       stage.addChild(button);
     }
 
@@ -212,6 +236,7 @@ angular.module('myApp')
       button.addChild(reset, label);
       button.on("click", func);
       buttons[message] = button;
+      button.z = 1;
       stage.addChild(button);
     }
 
@@ -257,6 +282,7 @@ angular.module('myApp')
     }
 
 
+
     function addpic (i, _x, _y) {
       var tmpImg = new Image();
       var baseHead = "imgs/cards/";
@@ -266,12 +292,14 @@ angular.module('myApp')
       tmpImg.src = src;
       tmpImg.height = 200;
       var image = new createjs.Bitmap(tmpImg);
+      image.z = -1;
       image.set({x: _x, y: _y});
       image.scaleX = 2.0;
       image.scaleY = 2.0;
       image.name = i;
       image.clicked = 0;
       image.on("click", function (){
+        if (image.name === "qb2fv")  return;
         if (cardsClickable === 0)    return;
         if (image.clicked === 0) {
           setcard(image);
@@ -281,6 +309,7 @@ angular.module('myApp')
         updateStage();
       });
       mycards.push (image);
+
       stage.addChild(image);
     }
 
