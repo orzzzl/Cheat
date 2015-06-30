@@ -57,9 +57,10 @@ angular.module('myApp')
 
       $scope.playerOneCards = $scope.state.white.clone();
       $scope.playerTwoCards = $scope.state.black.clone();
+      sortRanks();
       mycardsVal = [];
       for (var i = 0; i < $scope.playerOneCards.length; i ++) {
-        var tmp = "card" + i;
+        var tmp = "card" + $scope.playerOneCards[i];
         mycardsVal.push($scope.state [tmp]);
       }
       displayCards(20);
@@ -104,6 +105,26 @@ angular.module('myApp')
     };
 
     /*************** My Helper functions ***************/
+
+    // Sort the cards according to the ranks
+    function sortRanks() {
+      var sortFunction = function(cardA, cardB) {
+        if ($scope.state["card" + cardA] !== null) {
+          // Only sort the cards while they are not hidden
+          var rankA = $scope.state["card" + cardA];
+          var rankB = $scope.state["card" + cardB];
+          var scoreA = gameLogic.getRankScore(rankA);
+          var scoreB = gameLogic.getRankScore(rankB);
+          return scoreA - scoreB;
+        }
+        return 1;
+      };
+      $scope.playerOneCards.sort(sortFunction);
+      $scope.playerTwoCards.sort(sortFunction);
+    }
+
+
+
     function showButton (message) {
       buttons [message].visible = true;
       updateStage();
