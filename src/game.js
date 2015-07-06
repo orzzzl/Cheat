@@ -15,6 +15,7 @@ angular.module('myApp')
     resizeGameAreaService.setWidthToHeight(0.6);
 
     var bottomPos = 750;
+    var middlePos = 400;
     var upperPos = 100;
     var interPos =  25;
     var interPosOpp = 15;
@@ -29,6 +30,7 @@ angular.module('myApp')
     var mycardsVal= [];
     var cardsClickable = 1;
     var claimCards = [];
+    var middle = [];
     var currentClaim = 'A';
     function sendComputerMove() {
       gameService.makeMove(gameLogic.getRandomMove(state, turnIndex));
@@ -187,6 +189,7 @@ angular.module('myApp')
     function callback () {
       currentClaim = this;
       console.log (currentClaim);
+      displayMiddle (35);
     }
 
     function hideSelctionPanel () {
@@ -224,6 +227,25 @@ angular.module('myApp')
       for (var i = 1; i <= n; i ++) {
         var x = interPosOpp * (i - 1) + start - cardlength;
         var y = upperPos;
+        if (i > limit)
+          y += 50;
+        if (i > limit)
+          x -= (interPos * limit + start - cardlength);
+        addpic("qb2fv", x, y);
+      }
+    }
+
+    function displayMiddle (limit) {
+      var n = middle.length;
+      var N;
+      if (n > limit)
+        N = limit;
+      else
+        N = n;
+      var start = (600 - N * interPos) / 2;
+      for (var i = 1; i <= n; i ++) {
+        var x = interPosOpp * (i - 1) + start - cardlength;
+        var y = middlePos;
         if (i > limit)
           y += 50;
         if (i > limit)
@@ -281,6 +303,7 @@ angular.module('myApp')
 
 
     function resetAll () {
+      middle = [];
       cardsClickable = 1;
       for (var i = 0; i < mycards.length; i ++)
           clearcard(mycards [i]);
@@ -290,13 +313,14 @@ angular.module('myApp')
     function setcard (image) {
       showButton("Make Claim");
       hideButton("ops");
-      hideSelctionPanel ()
+      hideSelctionPanel ();
+      middle.push (image.name);
       cardsCnt ++;
       if (cardsCnt > 4) {
         cardsCnt --;
         return;
       }
-      console.log (image.name);
+      console.log (middle);
       image.y -= 30;
       image.clicked = 1;
     }
@@ -313,6 +337,14 @@ angular.module('myApp')
         showButton("Make Claim");
       image.y += 30;
       image.clicked = 0;
+      rmFromMiddle(image.name);
+    }
+
+    function rmFromMiddle (i) {
+      for (var j = 0; j < middle.length; j ++) {
+        if (middle [j] === i)    middle.splice(j, 1);
+      }
+      console.log (middle);
     }
 
 
