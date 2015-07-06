@@ -28,6 +28,8 @@ angular.module('myApp')
     var buttons = {};
     var mycardsVal= [];
     var cardsClickable = 1;
+    var claimCards = [];
+    var currentClaim;
     function sendComputerMove() {
       gameService.makeMove(gameLogic.getRandomMove(state, turnIndex));
     }
@@ -69,6 +71,7 @@ angular.module('myApp')
       displayOppCards (35);
       displayCards(20);
       $scope.initGame ();
+      createSelectionPanel ();
       // Is it the computer's turn?
       var isComputerTurn = canMakeMove &&
       params.playersInfo[params.yourPlayerIndex].playerId === '';
@@ -99,12 +102,6 @@ angular.module('myApp')
       createButton("Make Claim", 200, bottomPos - 100, Claim);
       hideButton("Make Claim");
       createOpts ();
-      createSmallButton("1", 80, bottomPos, function () {alert("1")});
-      createSmallButton("2", 180, bottomPos, function () {alert("2")});
-      createSmallButton("3", 280, bottomPos, function () {alert("3")});
-      hideButton("1");
-      hideButton("2");
-      hideButton("3");
       hideButton("ops");
       updateStage();
     };
@@ -153,11 +150,46 @@ angular.module('myApp')
       cardsClickable = 0;
       hideButton("Make Claim");
       showButton("ops");
-      showButton("1");
-      showButton("2");
-      showButton("3");
+
+      console.log (claimCards);
+      //createSmallButton("1", 80, bottomPos, function () {alert("1")});
+      //createSmallButton("2", 180, bottomPos, function () {alert("2")});
+      //createSmallButton("3", 280, bottomPos, function () {alert("3")});
+      //showButton("1");
+      //showButton("2");
+      //showButton("3");
+      showSelectionPanel ();
       updateStage();
     }
+    function showSelectionPanel () {
+      for (var i = 0; i < claimCards.length; i ++)
+        showButton(claimCards [i]);
+    }
+
+    function createSelectionPanel () {
+      //console.log(claimCards);
+      claimCards = gameLogic.getRankArray(currentClaim);
+      var row = 80;
+      var col = bottomPos;
+      for (var i = 0; i < claimCards.length; i ++) {
+        var text = claimCards [i];
+        createSmallButton(text, row, col, function () {
+          alert(claimCards [i])
+        });
+        row += 100;
+        if (i == 4 || i == 9) {
+          row = 80;
+          col += 80;
+        }
+      }
+      hideSelctionPanel();
+    }
+
+    function hideSelctionPanel () {
+      for (var i = 0; i < claimCards.length; i ++)
+          hideButton(claimCards [i]);
+    }
+
     function displayCards (limit) {
       var n = mycardsVal.length;
       var N;
@@ -202,6 +234,7 @@ angular.module('myApp')
     }
 
     function createSmallButton (message, _x, _y, func) {
+      console.log ("creating" + message);
       var reset = new createjs.Shape();
       reset.graphics.beginFill("DeepSkyBlue").drawRoundRect(0, 0, 60, 60, 10);
       var label = new createjs.Text (message, "bold 24px Arial", "#FFFFFF");
@@ -252,10 +285,8 @@ angular.module('myApp')
 
     function setcard (image) {
       showButton("Make Claim");
-      hideButton("1");
-      hideButton("2");
-      hideButton("3");
       hideButton("ops");
+      hideSelctionPanel ()
       cardsCnt ++;
       if (cardsCnt > 4) {
         cardsCnt --;
@@ -267,10 +298,8 @@ angular.module('myApp')
     }
 
     function clearcard (image) {
-      hideButton("1");
-      hideButton("2");
-      hideButton("3");
       hideButton("ops");
+      hideSelctionPanel ()
       if (image.clicked === 0)
           return;
       cardsCnt --;
