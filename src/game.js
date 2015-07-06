@@ -17,6 +17,7 @@ angular.module('myApp')
     var bottomPos = 750;
     var upperPos = 100;
     var interPos =  25;
+    var interPosOpp = 15;
     var cardlength = 50;
     var canMakeMove = false;
     var state = null;
@@ -65,7 +66,7 @@ angular.module('myApp')
         mycardsVal.push($scope.state [tmp]);
       }
       stage.removeAllChildren ();
-      displayOppCards (20);
+      displayOppCards (35);
       displayCards(20);
       $scope.initGame ();
       // Is it the computer's turn?
@@ -185,7 +186,7 @@ angular.module('myApp')
         N = n;
       var start = (600 - N * interPos) / 2;
       for (var i = 1; i <= n; i ++) {
-        var x = interPos * (i - 1) + start - cardlength;
+        var x = interPosOpp * (i - 1) + start - cardlength;
         var y = upperPos;
         if (i > limit)
           y += 50;
