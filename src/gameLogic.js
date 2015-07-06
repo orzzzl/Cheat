@@ -214,37 +214,36 @@
      * @returns {number}
      */
     function getRankScore(rank) {
-      //switch (rank) {
-      //  case '2':
-      //    return 1;
-      //  case '3':
-      //    return 2;
-      //  case '4':
-      //    return 3;
-      //  case '5':
-      //    return 4;
-      //  case '6':
-      //    return 5;
-      //  case '7':
-      //    return 6;
-      //  case '8':
-      //    return 7;
-      //  case '9':
-      //    return 8;
-      //  case '10':
-      //    return 9;
-      //  case 'J':
-      //    return 10;
-      //  case 'Q':
-      //    return 11;
-      //  case 'K':
-      //    return 12;
-      //  case 'A':
-      //    return 13;
-      //  default:
-      //    throw new Error("Illegal rank!");
-      //}
-      return rank % 13 + 1;
+      switch (rank) {
+        case '2':
+          return 1;
+        case '3':
+          return 2;
+        case '4':
+          return 3;
+        case '5':
+          return 4;
+        case '6':
+          return 5;
+        case '7':
+          return 6;
+        case '8':
+          return 7;
+        case '9':
+          return 8;
+        case '10':
+          return 9;
+        case 'J':
+          return 10;
+        case 'Q':
+          return 11;
+        case 'K':
+          return 12;
+        case 'A':
+          return 13;
+        default:
+          throw new Error("Illegal rank!");
+      }
     }
 
     /**
@@ -315,7 +314,7 @@
      */
     function getCard(i) {
       check(i >= 0 && i <52, "Illegal index");
-      /*
+
       var suit,
       rank;
 
@@ -372,8 +371,17 @@
       }
 
       return suit + rank;
-      */
-      return i;
+
+    }
+
+    function getCardReverse (strVal) {
+      var suit = strVal.substring (0, 1);
+      var rank = strVal.substring (1);
+      var tmp = getRankScore(rank) - 1;
+      if (suit === SUIT.DIAMONDS)    tmp += 13;
+      if (suit === SUIT.HEARTS)    tmp += 26;
+      if (suit === SUIT.SPADES)    tmp += 39;
+      return tmp;
     }
 
     /**
@@ -384,7 +392,7 @@
      */
     function isCloseRank(rank, rankToCompare) {
       var diff = Math.abs(getRankScore(rank) - getRankScore(rankToCompare));
-      return diff <= 1;
+      return diff <= 1 || diff === 12;
     }
 
     /**
@@ -722,6 +730,7 @@
       getCard: getCard,
       getWinner: getWinner,
       getRankArray: getRankArray,
+      getCardReverse: getCardReverse,
       STAGE: STAGE
     };
   });

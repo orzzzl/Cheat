@@ -29,7 +29,7 @@ angular.module('myApp')
     var mycardsVal= [];
     var cardsClickable = 1;
     var claimCards = [];
-    var currentClaim;
+    var currentClaim = 'A';
     function sendComputerMove() {
       gameService.makeMove(gameLogic.getRandomMove(state, turnIndex));
     }
@@ -65,7 +65,8 @@ angular.module('myApp')
       mycardsVal = [];
       for (var i = 0; i < $scope.playerOneCards.length; i ++) {
         var tmp = "card" + $scope.playerOneCards[i];
-        mycardsVal.push($scope.state [tmp]);
+        var tmpCard = gameLogic.getCardReverse($scope.state [tmp]);
+        mycardsVal.push(tmpCard);
       }
       stage.removeAllChildren ();
       displayOppCards (35);
@@ -113,8 +114,8 @@ angular.module('myApp')
       var sortFunction = function(cardA, cardB) {
         if ($scope.state["card" + cardA] !== null) {
           // Only sort the cards while they are not hidden
-          var rankA = $scope.state["card" + cardA];
-          var rankB = $scope.state["card" + cardB];
+          var rankA = $scope.state["card" + cardA].substring(1);
+          var rankB = $scope.state["card" + cardB].substring(1);
           var scoreA = gameLogic.getRankScore(rankA);
           var scoreB = gameLogic.getRankScore(rankB);
           return scoreA - scoreB;
@@ -173,9 +174,7 @@ angular.module('myApp')
       var col = bottomPos;
       for (var i = 0; i < claimCards.length; i ++) {
         var text = claimCards [i];
-        createSmallButton(text, row, col, function () {
-          alert(claimCards [i])
-        });
+        createSmallButton(text, row, col, callback);
         row += 100;
         if (i == 4 || i == 9) {
           row = 80;
@@ -183,6 +182,11 @@ angular.module('myApp')
         }
       }
       hideSelctionPanel();
+    }
+
+    function callback () {
+      currentClaim = this;
+      console.log (currentClaim);
     }
 
     function hideSelctionPanel () {
@@ -248,7 +252,7 @@ angular.module('myApp')
       button.x = _x;
       button.y = _y;
       button.addChild(reset, label);
-      button.on("click", func);
+      button.on("click", func, message);
       buttons[message] = button;
       button.z = 2;
       stage.addChild(button);
