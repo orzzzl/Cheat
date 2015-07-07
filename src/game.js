@@ -163,6 +163,7 @@ angular.module('myApp')
       hideButton("Make Claim");
       createOpts ();
       hideButton("ops");
+      showButton("Cancel");
       updateStage();
     };
 
@@ -446,10 +447,10 @@ angular.module('myApp')
       showButton("Make Claim");
       hideButton("ops");
       hideSelctionPanel ();
-      $scope.middle.push (nameToInd(image.name));
-      console.log ($scope.middle);
       image.y -= 30;
       image.clicked = 1;
+      $scope.middle.push (nameToInd(image.name));
+      console.log ($scope.middle);
     }
 
     function clearcard (image) {
