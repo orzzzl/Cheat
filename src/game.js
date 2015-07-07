@@ -30,16 +30,13 @@ angular.module('myApp')
     var mycardsVal= [];
     var cardsClickable = 1;
     var claimCards = [];
-    var middle = [];
-    var currentClaim = 'A';
-    function sendComputerMove() {
-      gameService.makeMove(gameLogic.getRandomMove(state, turnIndex));
-    }
+    var STAGE = gameLogic.STAGE;
+
 
     function updateUI(params) {
-      state = params.stateAfterMove;
+      $scope.state = params.stateAfterMove;
       // If the state is empty, first initialize the board...
-      if (gameLogic.isEmptyObj(state)) {
+      if (gameLogic.isEmptyObj($scope.state)) {
         if (params.yourPlayerIndex === 0) {
           gameService.makeMove(gameLogic.getInitialMove());
         }
@@ -47,7 +44,6 @@ angular.module('myApp')
       }
       console.log (params.stateAfterMove);
       // Get the new state
-      $scope.state = params.stateAfterMove;
       // Get the current player index (For creating computer move...)
       $scope.currIndex = params.turnIndexAfterMove;
       $scope.isYourTurn = params.turnIndexAfterMove >= 0 && // game is ongoing
@@ -61,8 +57,26 @@ angular.module('myApp')
       $scope.middle = $scope.state.middle.clone();
       turnIndex = params.turnIndexAfterMove;
 
-      $scope.playerOneCards = $scope.state.white.clone();
-      $scope.playerTwoCards = $scope.state.black.clone();
+
+      if (params.playMode === 'playAgainstTheComputer' || ($scope.currIndex === 0 && params.playMode === 'passAndPlay')) {
+        // If the game is played in the same device, use the default setting
+        $scope.playerOneCards = $scope.state.white.clone();
+        $scope.playerTwoCards = $scope.state.black.clone();
+      } else if (params.playMode === 'passAndPlay' && $scope.currIndex === 1) {
+        $scope.playerOneCards = $scope.state.black.clone();
+        $scope.playerTwoCards = $scope.state.white.clone();
+      } else {
+        // Otherwise, player one area holds the cards for the player self
+        if (params.yourPlayerIndex === 0) {
+          $scope.playerOneCards =  $scope.state.white.clone();
+          $scope.playerTwoCards = $scope.state.black.clone();
+        } else {
+          $scope.playerOneCards =  $scope.state.black.clone();
+          $scope.playerTwoCards = $scope.state.white.clone();
+        }
+      }
+
+      $scope.middle = $scope.state.middle.clone();
       sortRanks();
       mycardsVal = [];
       for (var i = 0; i < $scope.playerOneCards.length; i ++) {
@@ -78,6 +92,32 @@ angular.module('myApp')
       // Is it the computer's turn?
       var isComputerTurn = canMakeMove &&
       params.playersInfo[params.yourPlayerIndex].playerId === '';
+
+      // In case the board is not updated
+      if (!$scope.$$phase) {
+        $scope.$apply();
+      }
+
+      // If the game ends, send the end game operation directly
+      checkEndGame();
+      console.log ("is your turn is: " + $scope.isYourTurn);
+      if ($scope.isYourTurn) {
+        switch($scope.state.stage) {
+          case STAGE.DO_CLAIM:
+          console.log ("Do Claim");
+            updateClaimRanks();
+            break;
+          case STAGE.DECLARE_CHEATER:
+            console.log ("declare cheater");
+            break;
+          case STAGE.CHECK_CLAIM:
+          console.log ("check claim");
+            checkDeclaration();
+            break;
+          default:
+        }
+      }
+
       if (isComputerTurn) {
         canMakeMove = false;
         sendComputerMove();
@@ -110,6 +150,47 @@ angular.module('myApp')
     };
 
     /*************** My Helper functions ***************/
+    // Update the ranks for claiming
+    function updateClaimRanks () {
+      if (angular.isUndefined($scope.state.claim)) {
+        $scope.claimRanks = gameLogic.getRankArray();
+      } else {
+        var rank = $scope.state.claim[1];
+        $scope.claimRanks = gameLogic.getRankArray(rank);
+      }
+    }
+
+
+    // Check the declaration
+    function checkDeclaration() {
+      var operations = gameLogic.getMoveCheckIfCheated($scope.state, $scope.currIndex);
+      gameService.makeMove(operations);
+    }
+
+
+    // Check if there's a winner
+    function hasWinner() {
+      return gameLogic.getWinner($scope.state) !== -1;
+    }
+
+    // Send computer move
+    function sendComputerMove() {
+      var operations = gameLogic.createComputerMove($scope.state, $scope.currIndex);
+      if ($scope.currIndex === 1) {
+        gameService.makeMove(operations);
+      }
+    }
+
+    // Check if the game ends, and if so, send the end game operations
+    function checkEndGame() {
+      if (hasWinner() && $scope.stage === STAGE.DO_CLAIM) {
+        // Only send end game operations in DO_CLAIM stage
+        var operation = gameLogic.getWinMove($scope.state);
+        gameService.makeMove(operation);
+      }
+    }
+
+
 
     // Sort the cards according to the ranks
     function sortRanks() {
@@ -171,6 +252,7 @@ angular.module('myApp')
 
     function createSelectionPanel () {
       //console.log(claimCards);
+      var currentClaim = $scope.state.claim === undefined ? undefined : $scope.state.claim [1];
       claimCards = gameLogic.getRankArray(currentClaim);
       var row = 80;
       var col = bottomPos;
@@ -187,9 +269,14 @@ angular.module('myApp')
     }
 
     function callback () {
-      currentClaim = this;
-      console.log (currentClaim);
+      var rank = ""  + this;
       displayMiddle (35);
+      console.log ($scope.middle.clone ());
+      var claim = [$scope.middle.length - $scope.state.middle.length, rank];
+      var diffM = $scope.middle.clone();
+      diffM.selfSubtract($scope.state.middle);
+      var operations = gameLogic.getClaimMove($scope.state, $scope.currIndex, claim, diffM);
+      gameService.makeMove(operations);
     }
 
     function hideSelctionPanel () {
@@ -236,7 +323,7 @@ angular.module('myApp')
     }
 
     function displayMiddle (limit) {
-      var n = middle.length;
+      var n = $scope.middle.length;
       var N;
       if (n > limit)
         N = limit;
@@ -244,13 +331,13 @@ angular.module('myApp')
         N = n;
       var start = (600 - N * interPos) / 2;
       for (var i = 1; i <= n; i ++) {
-        var x = interPosOpp * (i - 1) + start - cardlength;
+        var x = interPosOpp * (i - 1) + start - cardlength - 100;
         var y = middlePos;
         if (i > limit)
           y += 50;
         if (i > limit)
           x -= (interPos * limit + start - cardlength);
-        addpic("qb2fv", x, y);
+        addpic("qb2fh", x, y);
       }
     }
 
@@ -301,9 +388,17 @@ angular.module('myApp')
     }
 
 
+    function nameToInd (i) {
+      var strval = gameLogic.getCard(parseInt(i));
+      for (var j = 0; j < 52; j ++) {
+        if ($scope.state ["card" + j] === strval)
+            return j;
+      }
+      return -1;
+    }
 
     function resetAll () {
-      middle = [];
+      $scope.middle = $scope.state.middle;
       cardsClickable = 1;
       for (var i = 0; i < mycards.length; i ++)
           clearcard(mycards [i]);
@@ -314,13 +409,13 @@ angular.module('myApp')
       showButton("Make Claim");
       hideButton("ops");
       hideSelctionPanel ();
-      middle.push (image.name);
+      $scope.middle.push (nameToInd(image.name));
       cardsCnt ++;
       if (cardsCnt > 4) {
         cardsCnt --;
         return;
       }
-      console.log (middle);
+      console.log ($scope.middle);
       image.y -= 30;
       image.clicked = 1;
     }
@@ -341,10 +436,11 @@ angular.module('myApp')
     }
 
     function rmFromMiddle (i) {
-      for (var j = 0; j < middle.length; j ++) {
-        if (middle [j] === i)    middle.splice(j, 1);
+      var t = nameToInd(i);
+      for (var j = 0; j < $scope.middle.length; j ++) {
+        if ($scope.middle [j] === t)    $scope.middle.splice(j, 1);
       }
-      console.log (middle);
+      console.log ($scope.middle);
     }
 
 
