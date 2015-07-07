@@ -91,9 +91,9 @@ angular.module('myApp')
       params.playersInfo[params.yourPlayerIndex].playerId === '';
 
       // In case the board is not updated
-      if (!$scope.$$phase) {
-        $scope.$apply();
-      }
+      //if (!$scope.$$phase) {
+      //  $scope.$apply();
+      //}
 
       // If the game ends, send the end game operation directly
       checkEndGame();
@@ -431,7 +431,7 @@ angular.module('myApp')
     }
 
     function resetAll () {
-      $scope.middle = $scope.state.middle;
+   //   $scope.middle = $scope.state.middle;
       cardsClickable = 1;
       for (var i = 0; i < mycards.length; i ++)
           clearcard(mycards [i]);
