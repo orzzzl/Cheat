@@ -105,12 +105,14 @@ angular.module('myApp')
           case STAGE.DO_CLAIM:
           console.log ("Do Claim");
             displayCards(20);
-            $scope.createClaimEnv ();
+            createClaimEnv ();
             createSelectionPanel ();
             updateClaimRanks();
             break;
           case STAGE.DECLARE_CHEATER:
+            createDecEnv ();
             console.log ("declare cheater");
+
             break;
           case STAGE.CHECK_CLAIM:
           console.log ("check claim");
@@ -142,7 +144,9 @@ angular.module('myApp')
       sendUserMove(gameLogic.createMove(state, turnIndex, userChoices));
     }
 
-    $scope.createClaimEnv  = function () {
+
+    /*************** My Helper functions ***************/
+    function createClaimEnv() {
       createButton ("Cancel", 400, bottomPos - 100, resetAll);
       createButton("Make Claim", 200, bottomPos - 100, Claim);
       hideButton("Make Claim");
@@ -151,7 +155,28 @@ angular.module('myApp')
       updateStage();
     };
 
-    /*************** My Helper functions ***************/
+
+    function createDecEnv () {
+      createDecPanel ();
+    }
+
+    function createDecPanel () {
+      var panel = new createjs.Container();
+      var background = new createjs.Shape ();
+      background.graphics.beginFill("#006400").drawRect(0, 600, 600, 800);
+
+      var message = $scope.state.claim [0] + " cards claimed to be " + $scope.state.claim [1] + "\n\n What do you think ?";
+      var label = new createjs.Text (message, "bold 40px 'Shadows Into Light'", "#FFFFFF");
+      label.textAlign = "center";
+      label.textBaseline = "middle";
+      label.x = 300;
+      label.y = 650;
+
+      panel.addChild(background, label);
+      stage.addChild(panel);
+      updateStage()
+    }
+
     // Update the ranks for claiming
     function updateClaimRanks () {
       if (angular.isUndefined($scope.state.claim)) {
@@ -211,8 +236,6 @@ angular.module('myApp')
       $scope.playerTwoCards.sort(sortFunction);
     }
 
-
-
     function showButton (message) {
       buttons [message].visible = true;
       updateStage();
@@ -236,24 +259,17 @@ angular.module('myApp')
       cardsClickable = 0;
       hideButton("Make Claim");
       showButton("ops");
-
       console.log (claimCards);
-      //createSmallButton("1", 80, bottomPos, function () {alert("1")});
-      //createSmallButton("2", 180, bottomPos, function () {alert("2")});
-      //createSmallButton("3", 280, bottomPos, function () {alert("3")});
-      //showButton("1");
-      //showButton("2");
-      //showButton("3");
       showSelectionPanel ();
       updateStage();
     }
+
     function showSelectionPanel () {
       for (var i = 0; i < claimCards.length; i ++)
         showButton(claimCards [i]);
     }
 
     function createSelectionPanel () {
-      //console.log(claimCards);
       var currentClaim = $scope.state.claim === undefined ? undefined : $scope.state.claim [1];
       claimCards = gameLogic.getRankArray(currentClaim);
       var row = 80;
@@ -351,7 +367,7 @@ angular.module('myApp')
       console.log ("creating" + message);
       var reset = new createjs.Shape();
       reset.graphics.beginFill("DeepSkyBlue").drawRoundRect(0, 0, 60, 60, 10);
-      var label = new createjs.Text (message, "bold 24px Arial", "#FFFFFF");
+      var label = new createjs.Text (message, "bold 24px 'Shadows Into Light'", "#FFFFFF");
       label.textAlign = "center";
       label.textBaseline = "middle";
       label.x = 60/2;
@@ -371,7 +387,7 @@ angular.module('myApp')
     function createButton (message, _x, _y, func) {
       var reset = new createjs.Shape();
       reset.graphics.beginFill("DeepSkyBlue").drawRoundRect(0, 0, 150, 60, 10);
-      var label = new createjs.Text (message, "bold 24px Arial", "#FFFFFF");
+      var label = new createjs.Text (message, "bold 24px 'Shadows Into Light'", "#FFFFFF");
       label.textAlign = "center";
       label.textBaseline = "middle";
       label.x = 150/2;
@@ -407,25 +423,25 @@ angular.module('myApp')
     }
 
     function setcard (image) {
-      showButton("Make Claim");
-      hideButton("ops");
-      hideSelctionPanel ();
-      $scope.middle.push (nameToInd(image.name));
       cardsCnt ++;
       if (cardsCnt > 4) {
         cardsCnt --;
         return;
       }
+      showButton("Make Claim");
+      hideButton("ops");
+      hideSelctionPanel ();
+      $scope.middle.push (nameToInd(image.name));
       console.log ($scope.middle);
       image.y -= 30;
       image.clicked = 1;
     }
 
     function clearcard (image) {
+      if (image.clicked === 0)
+        return;
       hideButton("ops");
       hideSelctionPanel ()
-      if (image.clicked === 0)
-          return;
       cardsCnt --;
       if (cardsCnt === 0)
         hideButton("Make Claim");
