@@ -86,9 +86,8 @@ angular.module('myApp')
       }
       stage.removeAllChildren ();
       displayOppCards (35);
-      displayCards(20);
-      $scope.initGame ();
-      createSelectionPanel ();
+      displayMiddle (35);
+      updateStage();
       // Is it the computer's turn?
       var isComputerTurn = canMakeMove &&
       params.playersInfo[params.yourPlayerIndex].playerId === '';
@@ -105,6 +104,9 @@ angular.module('myApp')
         switch($scope.state.stage) {
           case STAGE.DO_CLAIM:
           console.log ("Do Claim");
+            displayCards(20);
+            $scope.createClaimEnv ();
+            createSelectionPanel ();
             updateClaimRanks();
             break;
           case STAGE.DECLARE_CHEATER:
@@ -140,7 +142,7 @@ angular.module('myApp')
       sendUserMove(gameLogic.createMove(state, turnIndex, userChoices));
     }
 
-    $scope.initGame = function () {
+    $scope.createClaimEnv  = function () {
       createButton ("Cancel", 400, bottomPos - 100, resetAll);
       createButton("Make Claim", 200, bottomPos - 100, Claim);
       hideButton("Make Claim");
@@ -270,7 +272,6 @@ angular.module('myApp')
 
     function callback () {
       var rank = ""  + this;
-      displayMiddle (35);
       console.log ($scope.middle.clone ());
       var claim = [$scope.middle.length - $scope.state.middle.length, rank];
       var diffM = $scope.middle.clone();
@@ -318,7 +319,7 @@ angular.module('myApp')
           y += 50;
         if (i > limit)
           x -= (interPos * limit + start - cardlength);
-        addpic("qb2fv", x, y);
+        addpic("qb1fv", x, y);
       }
     }
 
@@ -337,7 +338,7 @@ angular.module('myApp')
           y += 50;
         if (i > limit)
           x -= (interPos * limit + start - cardlength);
-        addpic("qb2fh", x, y);
+        addpic("qb1fh", x, y);
       }
     }
 
@@ -461,7 +462,7 @@ angular.module('myApp')
       image.name = i;
       image.clicked = 0;
       image.on("click", function (){
-        if (image.name === "qb2fv")  return;
+        if (image.name === "qb1fv")  return;
         if (cardsClickable === 0)    return;
         if (image.clicked === 0) {
           setcard(image);
