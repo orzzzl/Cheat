@@ -56,8 +56,7 @@ angular.module('myApp')
       // Get the cards for player one area, player two area and middle area
       $scope.middle = $scope.state.middle.clone();
       turnIndex = params.turnIndexAfterMove;
-
-
+      clearEverything ();
       if (params.playMode === 'playAgainstTheComputer' || ($scope.currIndex === 0 && params.playMode === 'passAndPlay')) {
         // If the game is played in the same device, use the default setting
         $scope.playerOneCards = $scope.state.white.clone();
@@ -84,7 +83,6 @@ angular.module('myApp')
         var tmpCard = gameLogic.getCardReverse($scope.state [tmp]);
         mycardsVal.push(tmpCard);
       }
-      stage.removeAllChildren ();
       displayOppCards (35);
       displayMiddle (35);
       updateStage();
@@ -146,6 +144,19 @@ angular.module('myApp')
 
 
     /*************** My Helper functions ***************/
+    function clearEverything () {
+      turnIndex = null;
+      cardsCnt = 0;
+      mycards = [];
+      buttons = {};
+      mycardsVal= [];
+      cardsClickable = 1;
+      claimCards = [];
+      stage.removeAllChildren ();
+    }
+
+
+
     function createClaimEnv() {
       createButton ("Cancel", 400, bottomPos - 100, resetAll);
       createButton("Make Claim", 200, bottomPos - 100, Claim);
@@ -174,6 +185,9 @@ angular.module('myApp')
 
       panel.addChild(background, label);
       stage.addChild(panel);
+
+      createButton ("BullSh ! t", 100, 800, function () {alert ("clicked")});
+      createButton ("Pass", 350, 800, function () {alert ("clicked")});
       updateStage()
     }
 
@@ -366,7 +380,7 @@ angular.module('myApp')
     function createSmallButton (message, _x, _y, func) {
       console.log ("creating" + message);
       var reset = new createjs.Shape();
-      reset.graphics.beginFill("DeepSkyBlue").drawRoundRect(0, 0, 60, 60, 10);
+      reset.graphics.beginFill("#FA8072").drawRoundRect(0, 0, 60, 60, 10);
       var label = new createjs.Text (message, "bold 24px 'Shadows Into Light'", "#FFFFFF");
       label.textAlign = "center";
       label.textBaseline = "middle";
@@ -384,9 +398,10 @@ angular.module('myApp')
       stage.addChild(button);
     }
 
+
     function createButton (message, _x, _y, func) {
       var reset = new createjs.Shape();
-      reset.graphics.beginFill("DeepSkyBlue").drawRoundRect(0, 0, 150, 60, 10);
+      reset.graphics.beginFill("#FA8072").drawRoundRect(0, 0, 150, 60, 10);
       var label = new createjs.Text (message, "bold 24px 'Shadows Into Light'", "#FFFFFF");
       label.textAlign = "center";
       label.textBaseline = "middle";
