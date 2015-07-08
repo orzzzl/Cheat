@@ -524,12 +524,12 @@
         operations.selfConcat(setVisibilities);
       } else {
         // Skip declaring cheater if the opponent does not empty all cards
-        if (turnIndexBeforeMove === 0) {
-          // White
-          check(state.black.length !== 0);
-        } else {
-          check(state.white.length !== 0);
-        }
+        //if (turnIndexBeforeMove === 0) {
+        //  // White
+        //  check(state.black.length !== 0);
+        //} else {
+        //  check(state.white.length !== 0);
+        //}
         operations.selfConcat([{setTurn: {turnIndex: turnIndexBeforeMove}}]);
         operations.selfConcat([{set: {key: 'stage', value: STAGE.DO_CLAIM }}]);
       }
@@ -577,6 +577,7 @@
 
       operations.selfConcat([{set: {key: 'middle', value: []}}]);
       operations.selfConcat([{set: {key: 'stage', value: STAGE.DO_CLAIM}}]);
+      operations.selfConcat([{set: {key: 'claim', value: []}}]);
 
       for (var i = 0; i < state.middle.length; i++) {
         if (loserIndex === 0) {
@@ -603,7 +604,7 @@
       lastM,
       newM;
 
-      if (!angular.isUndefined(lastClaim)) {
+      if (!angular.isUndefined(lastClaim) && !angular.isUndefined(lastClaim [0])) {
         // If the last claim exists, the rank of the latest claim must be
         // close or equal to the last claim.
         check(isCloseRank(lastClaim[1], claim[1]));

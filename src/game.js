@@ -14,12 +14,9 @@ angular.module('myApp')
     // TODO: choose your width-to-height ratio (1 means the board is square).
     resizeGameAreaService.setWidthToHeight(0.6);
 
-    var bottomPos = 750;
+    var bottomPos = 700;
     var middlePos = 400;
     var upperPos = 100;
-    var interPos =  25;
-    var interPosOpp = 15;
-    var cardlength = 50;
     var canMakeMove = false;
     var state = null;
     var stage = new createjs.Stage("demoCanvas");
@@ -83,6 +80,9 @@ angular.module('myApp')
         var tmpCard = gameLogic.getCardReverse($scope.state [tmp]);
         mycardsVal.push(tmpCard);
       }
+      // If the game ends, send the end game operation directly
+      checkEndGame();
+      showPlayerIndex ($scope.currIndex);
       displayOppCards (35);
       displayMiddle (35);
       updateStage();
@@ -95,8 +95,6 @@ angular.module('myApp')
       //  $scope.$apply();
       //}
 
-      // If the game ends, send the end game operation directly
-      checkEndGame();
       console.log ("is your turn is: " + $scope.isYourTurn);
       if ($scope.isYourTurn) {
         switch($scope.state.stage) {
@@ -203,6 +201,14 @@ angular.module('myApp')
     }
 
 
+    function showPlayerIndex (turnIndex) {
+      var message = "Player turn index: " + turnIndex;
+      var label = new createjs.Text (message, "bold 24px 'Shadows Into Light'", "#FFFFFF");
+      label.x = 50;
+      label.y = 50;
+      stage.addChild(label);
+    }
+
     // Check the declaration
     function checkDeclaration() {
       var operations = gameLogic.getMoveCheckIfCheated($scope.state, $scope.currIndex);
@@ -225,8 +231,10 @@ angular.module('myApp')
 
     // Check if the game ends, and if so, send the end game operations
     function checkEndGame() {
-      if (hasWinner() && $scope.stage === STAGE.DO_CLAIM) {
+      console.log (hasWinner() + "&&&&&&&&" + $scope.state.stage);
+      if (hasWinner() && $scope.state.stage === STAGE.DO_CLAIM) {
         // Only send end game operations in DO_CLAIM stage
+        console.log ("game is end!");
         var operation = gameLogic.getWinMove($scope.state);
         gameService.makeMove(operation);
       }
@@ -267,9 +275,9 @@ angular.module('myApp')
 
     function createOpts () {
       var shape = new createjs.Shape();
-      shape.graphics.beginFill("#006400").drawRect(0, 0, 600, 400);
+      shape.graphics.beginFill("#006400").drawRect(0, 0, 800, 800);
       shape.x = 0;
-      shape.y = 710;
+      shape.y = 660;
       stage.addChild (shape);
       buttons["ops"] = shape;
     }
@@ -321,58 +329,52 @@ angular.module('myApp')
     }
 
     function displayCards (limit) {
-      var n = mycardsVal.length;
-      var N;
-      if (n > limit)
-        N = limit;
-      else
-        N = n;
-      var start = (600 - N * interPos) / 2;
-      for (var i = 1; i <= n; i ++) {
-        var x = interPos * (i - 1) + start - cardlength;
+        var n = mycardsVal.length;
+        var start = 10;
+        var end = 480;
+        var interPos = (end - start) / (n > limit ? limit : n);
+        var x = start - interPos;
         var y = bottomPos;
-        if (i > limit)
-          y += 50;
-        if (i > limit)
-          x -= (interPos * limit + start - cardlength);
-        addpic(mycardsVal [i - 1], x, y);
-      }
+        for (var i = 0; i < n; i ++) {
+          x += interPos;
+          if (i === limit || i === limit * 2 || i === limit * 3) {
+            x = start;
+            y += 50;
+          }
+          addpic(mycardsVal [i], x, y);
+        }
     }
 
     function displayOppCards (limit) {
       var n = $scope.playerTwoCards.length;
-      var N;
-      if (n > limit)
-        N = limit;
-      else
-        N = n;
-      var start = (600 - N * interPos) / 2;
-      for (var i = 1; i <= n; i ++) {
-        var x = interPosOpp * (i - 1) + start - cardlength;
-        var y = upperPos;
-        if (i > limit)
+      var start = 10;
+      var end = 480;
+      var interPos = (end - start) / (n > limit ? limit : n);
+      var x = start - interPos;
+      var y = upperPos;
+      for (var i = 0; i < n; i ++) {
+        x += interPos;
+        if (i === limit || i === limit * 2 || i === limit * 3) {
+          x = start;
           y += 50;
-        if (i > limit)
-          x -= (interPos * limit + start - cardlength);
+        }
         addpic("qb1fv", x, y);
       }
     }
 
     function displayMiddle (limit) {
       var n = $scope.middle.length;
-      var N;
-      if (n > limit)
-        N = limit;
-      else
-        N = n;
-      var start = (600 - N * interPos) / 2;
-      for (var i = 1; i <= n; i ++) {
-        var x = interPosOpp * (i - 1) + start - cardlength - 100;
-        var y = middlePos;
-        if (i > limit)
+      var start = 10;
+      var end = 480;
+      var interPos = (end - start) / (n > limit ? limit : n);
+      var x = start - interPos;
+      var y = middlePos;
+      for (var i = 0; i < n; i ++) {
+        x += interPos;
+        if (i === limit || i === limit * 2 || i === limit * 3) {
+          x = start;
           y += 50;
-        if (i > limit)
-          x -= (interPos * limit + start - cardlength);
+        }
         addpic("qb1fh", x, y);
       }
     }
