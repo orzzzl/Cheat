@@ -42,25 +42,26 @@ angular.module('myApp')
         return;
       }
       console.log (params.stateAfterMove);
+
       // Get the new state
       // Get the current player index (For creating computer move...)
       $scope.currIndex = params.turnIndexAfterMove;
-      $scope.isYourTurn = params.turnIndexAfterMove >= 0 && // game is ongoing
-      params.yourPlayerIndex === params.turnIndexAfterMove; // it's my turn
-      $scope.isAiMode = $scope.isYourTurn
 
-      && params.playersInfo[params.yourPlayerIndex].playerId === '';
+      canMakeMove = params.turnIndexAfterMove >= 0 && // game is ongoing
+      params.yourPlayerIndex === params.turnIndexAfterMove; // it's my turn
+      
+
       $scope.playMode = params.playMode;
 
       // Get the cards for player one area, player two area and middle area
       $scope.middle = $scope.state.middle.clone();
       turnIndex = params.turnIndexAfterMove;
       clearEverything ();
-      if (params.playMode === 'playAgainstTheComputer' || ($scope.currIndex === 0 && params.playMode === 'passAndPlay')) {
+      if ($scope.currIndex === 0) {// || ($scope.currIndex === 0 && params.playMode === 'passAndPlay')) {
         // If the game is played in the same device, use the default setting
         $scope.playerOneCards = $scope.state.white.clone();
         $scope.playerTwoCards = $scope.state.black.clone();
-      } else if (params.playMode === 'passAndPlay' && $scope.currIndex === 1) {
+      } else if ($scope.currIndex === 1) {//if (params.playMode === 'passAndPlay' && $scope.currIndex === 1) {
         $scope.playerOneCards = $scope.state.black.clone();
         $scope.playerTwoCards = $scope.state.white.clone();
       } else {
@@ -97,9 +98,11 @@ angular.module('myApp')
       //if (!$scope.$$phase) {
       //  $scope.$apply();
       //}
+      if (params.playMode === 'playAgainstTheComputer' && ($scope.currIndex != 0))
+          canMakeMove = false;
 
-      console.log ("is your turn is: " + $scope.isYourTurn);
-      if ($scope.isYourTurn) {
+      console.log ("is your turn is: " + canMakeMove);
+      if (canMakeMove) {
         switch($scope.state.stage) {
           case STAGE.DO_CLAIM:
           console.log ("Do Claim");
@@ -125,7 +128,6 @@ angular.module('myApp')
         canMakeMove = false;
         sendComputerMove();
       }
-      console.log (gameLogic.getInitialMove());
     }
 
 
