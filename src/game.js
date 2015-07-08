@@ -21,6 +21,7 @@ angular.module('myApp')
     var state = null;
     var stage = new createjs.Stage("demoCanvas");
     var turnIndex = null;
+    var gameOngoing;
     var cardsCnt = 0;
     var mycards = [];
     var buttons = {};
@@ -36,6 +37,7 @@ angular.module('myApp')
       if (gameLogic.isEmptyObj($scope.state)) {
         if (params.yourPlayerIndex === 0) {
           gameService.makeMove(gameLogic.getInitialMove());
+          gameOngoing = 1;
         }
         return;
       }
@@ -82,6 +84,7 @@ angular.module('myApp')
       }
       // If the game ends, send the end game operation directly
       checkEndGame();
+      if (gameOngoing === 0)    return;
       showPlayerIndex ($scope.currIndex);
       displayOppCards (35);
       displayMiddle (35);
@@ -151,6 +154,7 @@ angular.module('myApp')
       cardsClickable = 1;
       claimCards = [];
       stage.removeAllChildren ();
+      updateStage();
     }
 
 
@@ -203,9 +207,9 @@ angular.module('myApp')
 
     function showPlayerIndex (turnIndex) {
       var message = "Player turn index: " + turnIndex;
-      var label = new createjs.Text (message, "bold 24px 'Shadows Into Light'", "#FFFFFF");
+      var label = new createjs.Text (message, "bold 35px 'Shadows Into Light'", "#FFFFFF");
       label.x = 50;
-      label.y = 50;
+      label.y = 20;
       stage.addChild(label);
     }
 
@@ -235,6 +239,8 @@ angular.module('myApp')
       if (hasWinner() && $scope.state.stage === STAGE.DO_CLAIM) {
         // Only send end game operations in DO_CLAIM stage
         console.log ("game is end!");
+        clearEverything();
+        gameOngoing = 0;
         var operation = gameLogic.getWinMove($scope.state);
         gameService.makeMove(operation);
       }
@@ -363,6 +369,7 @@ angular.module('myApp')
     }
 
     function displayMiddle (limit) {
+      if (gameOngoing === 0)    return;
       var n = $scope.middle.length;
       var start = 10;
       var end = 480;

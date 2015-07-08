@@ -531,7 +531,10 @@
         //  check(state.white.length !== 0);
         //}
         operations.selfConcat([{setTurn: {turnIndex: turnIndexBeforeMove}}]);
-        operations.selfConcat([{set: {key: 'stage', value: STAGE.DO_CLAIM }}]);
+        if (getWinner(state) === -1)
+            operations.selfConcat([{set: {key: 'stage', value: STAGE.DO_CLAIM }}]);
+        else
+            operations.selfConcat([{set: {key: 'stage', value: STAGE.END }}]);
       }
 
       return operations;
@@ -577,7 +580,6 @@
 
       operations.selfConcat([{set: {key: 'middle', value: []}}]);
       operations.selfConcat([{set: {key: 'stage', value: STAGE.DO_CLAIM}}]);
-      operations.selfConcat([{set: {key: 'claim', value: []}}]);
 
       for (var i = 0; i < state.middle.length; i++) {
         if (loserIndex === 0) {
@@ -588,6 +590,7 @@
       }
 
       operations.selfConcat(setVisibilities);
+      operations.selfConcat([{set: {key: 'claim', value: []}}]);
 
       return operations;
     }
@@ -644,13 +647,16 @@
     }
 
     function getWinMove(state) {
+      var operations = [];
       var winner = getWinner(state);
       if (winner === 0) {
-        return [{endMatch: {endMatchScores: [1, 0]}}]
+        operations.selfConcat([{endMatch: {endMatchScores: [1, 0]}}]);
       } else if (winner === 1) {
-        return [{endMatch: {endMatchScores: [0, 1]}}]
+        operations.selfConcat([{endMatch: {endMatchScores: [0, 1]}}]);
       }
-      throw new Error("No one wins!")
+      operations.selfConcat([{set: {key: 'middle', value: [] }}]);
+      operations.selfConcat([{set: {key: 'stage', value: STAGE.END }}]);
+      return operations;
     }
 
     /**
@@ -685,7 +691,7 @@
             expectedMove = getClaimMove(stateBeforeMove, turnIndexBeforeMove, claim, diffM);
             break;
           case STAGE.DECLARE_CHEATER:
-            check(move[1].set.value === STAGE.DO_CLAIM || move[1].set.value === STAGE.CHECK_CLAIM);
+         //   check(move[1].set.value === STAGE.DO_CLAIM || move[1].set.value === STAGE.CHECK_CLAIM);
             var declareCheater = move[1].set.value === STAGE.CHECK_CLAIM;
             expectedMove = getDeclareCheaterMove(stateBeforeMove, turnIndexBeforeMove, declareCheater);
             break;
