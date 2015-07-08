@@ -187,8 +187,8 @@ angular.module('myApp')
       panel.addChild(background, label);
       stage.addChild(panel);
 
-      createButton ("BullSh ! t", 100, 800, function () {alert ("clicked")});
-      createButton ("Pass", 350, 800, function () {alert ("clicked")});
+      createButton ("BullSh ! t", 100, 800, function () {declare (true);});
+      createButton ("Pass", 350, 800, function () {declare (false);});
       updateStage()
     }
 
@@ -232,7 +232,11 @@ angular.module('myApp')
       }
     }
 
-
+    // Declare a cheater or pass
+    function declare (declareCheater) {
+      var operations = gameLogic.getDeclareCheaterMove($scope.state, $scope.currIndex, declareCheater);
+      gameService.makeMove(operations)
+    };
 
     // Sort the cards according to the ranks
     function sortRanks() {
