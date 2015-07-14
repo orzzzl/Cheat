@@ -78,7 +78,35 @@
     </div>
 </div>
 
-
+<div class="overlayModal" ng-class="{zeroOpacity: !sureToClaim, oneOpacity: sureToClaim}" aria-hidden="true">
+    <div class="modal-backdrop in"></div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="sureToClaim = false" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabelClaim">
+                    {{"Sure?"}}
+                </h4>
+            </div>
+            <div class="modal-body">
+                <carousel style="height: 50px">
+                    <slide>
+                        {{'Are you sure that you want to call a cheat?'}}
+                    </slide>
+                </carousel>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-click="sureToClaim = false; declare (true)">
+                    {{ 'Sure' }}
+                </button>
+                <button type="button" class="btn btn-primary" ng-click="sureToClaim = false">
+                    {{ 'Close' }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div id="gameArea">
     <canvas id="demoCanvas" width="600" height="1000"></canvas>

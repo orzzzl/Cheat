@@ -196,8 +196,10 @@ angular.module('myApp')
        //console.log (angular.element (document.querySelector( '#myModal' ) )); //.modal ('show');
        // angular.element (document.querySelector( '#myModal' )).modal();
       //{declare (true);});
+        $scope.sureToClaim = true;
+        $scope.$apply();
       });
-      createButton ("Pass", 350, 800, function () {declare (false);});
+      createButton ("Pass", 350, 800, function () {$scope.declare (false);});
       updateStage()
     }
 
@@ -254,7 +256,7 @@ angular.module('myApp')
     }
 
     // Declare a cheater or pass
-    function declare (declareCheater) {
+    $scope.declare = function (declareCheater) {
       var operations = gameLogic.getDeclareCheaterMove($scope.state, $scope.currIndex, declareCheater);
       gameService.makeMove(operations)
     };
