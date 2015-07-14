@@ -193,8 +193,8 @@ angular.module('myApp')
 
       createButton ("BullSh ! t", 100, 800, function () {
        //$scope.isHelpModalShown = true;
-       console.log (angular.element (document.querySelector( '#myModal' ) )); //.modal ('show');
-        angular.element (document.querySelector( '#myModal' )).modal();
+       //console.log (angular.element (document.querySelector( '#myModal' ) )); //.modal ('show');
+       // angular.element (document.querySelector( '#myModal' )).modal();
       //{declare (true);});
       });
       createButton ("Pass", 350, 800, function () {declare (false);});
