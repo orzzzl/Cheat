@@ -119,7 +119,7 @@ angular.module('myApp')
           case STAGE.CHECK_CLAIM:
           console.log ("check claim");
           $scope.ifCheat = true;
-          $scope.resultMessage = gameLogic.didCheat($scope.state) ? "Yes you are right!  You are too awesome!" : "No you are wrong.  Make a right call next time!";
+          $scope.resultMessage = gameLogic.didCheat($scope.state) ? "Cheat call success!" : "Cheat call fails!";
             checkDeclaration();
             break;
           default:
