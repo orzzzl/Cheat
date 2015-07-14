@@ -727,6 +727,7 @@
     return {
       isMoveOk: isMoveOk,
       isEmptyObj: isEmptyObj,
+      didCheat: didCheat,
       createComputerMove: createComputerMove,
       getInitialMove: getInitialMove,
       getClaimMove: getClaimMove,

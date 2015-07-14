@@ -101,6 +101,34 @@
                     {{ 'Sure' }}
                 </button>
                 <button type="button" class="btn btn-primary" ng-click="sureToClaim = false">
+                    {{ 'Cancel' }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="overlayModal" ng-class="{zeroOpacity: !ifCheat, oneOpacity: ifCheat}" aria-hidden="true">
+    <div class="modal-backdrop in"></div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="ifCheat = false" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabelIfCheat">
+                    {{"Result"}}
+                </h4>
+            </div>
+            <div class="modal-body">
+                <carousel style="height: 50px">
+                    <slide>
+                        {{resultMessage}}
+                    </slide>
+                </carousel>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-primary" ng-click="ifCheat = false">
                     {{ 'Close' }}
                 </button>
             </div>
