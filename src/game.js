@@ -191,7 +191,12 @@ angular.module('myApp')
       panel.addChild(background, label);
       stage.addChild(panel);
 
-      createButton ("BullSh ! t", 100, 800, function () {declare (true);});
+      createButton ("BullSh ! t", 100, 800, function () {
+       //$scope.isHelpModalShown = true;
+       console.log (angular.element (document.querySelector( '#myModal' ) )); //.modal ('show');
+        angular.element (document.querySelector( '#myModal' )).modal();
+      //{declare (true);});
+      });
       createButton ("Pass", 350, 800, function () {declare (false);});
       updateStage()
     }
