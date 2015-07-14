@@ -119,7 +119,8 @@ angular.module('myApp')
           case STAGE.CHECK_CLAIM:
           console.log ("check claim");
           $scope.ifCheat = true;
-          $scope.resultMessage = gameLogic.didCheat($scope.state) ? "Cheat call success!" : "Cheat call fails!";
+          $scope.resultMessage = "player " + $scope.currIndex + ": ";
+          $scope.resultMessage += gameLogic.didCheat($scope.state) ? "Cheat call success!" : "Cheat call fails!";
             checkDeclaration();
             break;
           default:
@@ -128,6 +129,11 @@ angular.module('myApp')
 
       if (isComputerTurn) {
         canMakeMove = false;
+        if ($scope.state.stage === STAGE.CHECK_CLAIM) {
+          $scope.ifCheat = true;
+          $scope.resultMessage = "player " + $scope.currIndex + ": ";
+          $scope.resultMessage += gameLogic.didCheat($scope.state) ? "Cheat call success!" : "Cheat call fails!";
+        }
         sendComputerMove();
       }
     }
