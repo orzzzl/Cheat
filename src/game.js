@@ -330,7 +330,7 @@ angular.module('myApp')
         row += 100;
         if (i == 4 || i == 9) {
           row = 80;
-          col += 80;
+          col += 100;
         }
       }
       hideSelctionPanel();
@@ -411,18 +411,27 @@ angular.module('myApp')
     function createSmallButton (message, _x, _y, func) {
       console.log ("creating" + message);
       var reset = new createjs.Shape();
-      reset.graphics.beginFill("#FA8072").drawRoundRect(0, 0, 60, 60, 10);
-      var label = new createjs.Text (message, "bold 24px 'Shadows Into Light'", "#FFFFFF");
-      label.textAlign = "center";
-      label.textBaseline = "middle";
-      label.x = 60/2;
-      label.y = 60/2;
+      reset.graphics.beginFill("white").drawRect(0, 0, 60, 80);
+      var rec = new createjs.Shape();
+      rec.graphics.beginStroke("black").drawRect(17, 18, 30, 40);
 
+      var label = new createjs.Text (message, "15px Arial'" , "black");
+      label.textAlign = "left";
+      label.textBaseline = "top";
+      label.x = 5;
+      label.y = 5;
+
+      var labelr = new createjs.Text (message, "15px Arial'" , "black");
+      labelr.textAlign = "left";
+      labelr.textBaseline = "top";
+      labelr.x = 55;
+      labelr.y = 75;
+      labelr.rotation = 180;
       var button = new createjs.Container();
       button.name = message;
       button.x = _x;
       button.y = _y;
-      button.addChild(reset, label);
+      button.addChild(reset, label, labelr, rec);
       button.on("click", func, message);
       buttons[message] = button;
       button.z = 2;
