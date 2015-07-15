@@ -9,7 +9,7 @@ angular.module('myApp')
     'use strict';
 
 
-    $log.info($translate('RULES_OF_TICTACTOE')); // Example of using $translate
+    $log.info($translate('NEW_TO_CHEAT')); // Example of using $translate
 
     // TODO: choose your width-to-height ratio (1 means the board is square).
     resizeGameAreaService.setWidthToHeight(0.6);
