@@ -413,7 +413,7 @@ angular.module('myApp')
       var reset = new createjs.Shape();
       reset.graphics.beginFill("white").drawRect(0, 0, 60, 80);
       var rec = new createjs.Shape();
-      rec.graphics.beginStroke("black").drawRect(17, 18, 30, 40);
+      rec.graphics.beginStroke("black").drawRect(20, 20, 25, 35);
 
       var label = new createjs.Text (message, "15px Arial'" , "black");
       label.textAlign = "left";
