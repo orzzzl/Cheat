@@ -56,8 +56,8 @@
 
             dragger.on("pressmove",function(evt) {
                 // currentTarget will be the container that the event listener was added to:
-                evt.currentTarget.x = evt.stageX;
-                evt.currentTarget.y = evt.stageY;
+                this.x = evt.stageX;
+                this.y = evt.stageY;
                 // make sure to redraw the stage to show the change:
                 stage.update();
             });
