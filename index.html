@@ -1,5 +1,5 @@
 <!doctype html >
-<html ng-app="mysApp">
+<html>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -30,42 +30,48 @@
     <link rel="stylesheet" type="text/css" href="http://yoav-zibin.github.io/emulator/main.css">
     <link rel="stylesheet" type="text/css" href="game.css">
 </head>
-<body ng-controller="CarouselDemoCtrl">
-
-
-<div class="overlayModal" ng-class="{zeroOpacity: !sureToClaim, oneOpacity: sureToClaim}" aria-hidden="true">
-    <div class="modal-backdrop in"></div>
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" ng-click="sureToClaim = false" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">
-                    {{'Sure?'}}
-                </h4>
-            </div>
-            <div class="modal-body">
-                <carousel style="height: 50px">
-                    <slide>
-                        {{'Are you sure that you want to call a cheat?'}}
-                    </slide>
-                </carousel>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" ng-click="sureToClaim = false">
-                    {{ ' Ok ' }}
-                </button>
-                <button type="button" class="btn btn-primary" ng-click="sureToClaim = false">
-                    {{ 'Close' }}
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
+<body onload="initt()">
 <script>
-    angular.module('mysApp', ['ngTouch', 'ui.bootstrap']).controller('CarouselDemoCtrl', ['$scope', function ($scope) {
-        $scope.sureToClaim = true;
-    }]);
+
+        var stage, output;
+
+            function initt ()  {
+            stage = new createjs.Stage("demoCanvass");
+
+            // this lets our drag continue to track the mouse even when it leaves the canvas:
+            // play with commenting this out to see the difference.
+            stage.mouseMoveOutside = true;
+
+            var circle = new createjs.Shape();
+            circle.graphics.beginFill("red").drawCircle(0, 0, 50);
+
+            var label = new createjs.Text("drag me", "bold 14px Arial", "#FFFFFF");
+            label.textAlign = "center";
+            label.y = -7;
+
+            var dragger = new createjs.Container();
+            dragger.x = dragger.y = 100;
+            dragger.addChild(circle, label);
+            stage.addChild(dragger);
+
+            dragger.on("pressmove",function(evt) {
+                // currentTarget will be the container that the event listener was added to:
+                evt.currentTarget.x = evt.stageX;
+                evt.currentTarget.y = evt.stageY;
+                // make sure to redraw the stage to show the change:
+                stage.update();
+            });
+
+           dragger.on("pressup", function (evt) {
+               console.log ("fuck");
+           });
+
+            stage.update();
+        }
+
 </script>
+<canvas id="demoCanvass" width="500" height="200">
+    alternate content
+</canvas>
 </body>
 </html>

@@ -12,7 +12,7 @@ window.angularTranslationsLoaded('en',{
 "CHEAT":"Cheat ",
 "SURE2":"Sure？",
 "AREYOUSURE":"Are you sure that you want to call a cheat?",
-"PTI":"Player turn index:",
+"PTI":"Player index:",
 "M1":" cards claimed to be ",
 "M2":"\n\n What do you think ?",
 "LAST":"Last Claim:",

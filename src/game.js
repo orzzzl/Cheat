@@ -46,7 +46,7 @@ angular.module('myApp')
 
       canMakeMove = params.turnIndexAfterMove >= 0 && // game is ongoing
       params.yourPlayerIndex === params.turnIndexAfterMove; // it's my turn
-      
+
 
       $scope.playMode = params.playMode;
 
@@ -214,12 +214,12 @@ angular.module('myApp')
 
 
     function showPlayerIndex (turnIndex) {
-      var message = $translate('PTI') + turnIndex;
+      var message = $translate('PTI') + " " + turnIndex;
       var label = new createjs.Text (message, "bold 35px 'Shadows Into Light'", "#FFFFFF");
-      label.x = 50;
+      label.x = 20;
       label.y = 20;
       var c = ($scope.state.claim === undefined || $scope.state.claim [1] === undefined ? "" : $scope.state.claim [1]);
-      var claimMessage = $translate('LAST') + c;
+      var claimMessage = $translate('LAST') + " " + c;
       var label2 = new createjs.Text (claimMessage, "bold 35px 'Shadows Into Light'", "#FFFFFF");
       label2.x = 300;
       label2.y = 20;
