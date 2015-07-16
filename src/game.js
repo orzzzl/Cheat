@@ -539,7 +539,6 @@ angular.module('myApp')
         updateStage();
       });
       mycards.push (image);
-
       stage.addChild(image);
     }
 
