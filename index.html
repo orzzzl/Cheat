@@ -72,6 +72,13 @@
             // make sure to redraw the stage to show the change:
             stage.update();
         });
+        dragger.on("mouseout", function (evt) {
+//            this.x = evt.stageX;
+//            this.y = evt.stageY;
+            this.alpha = 1;
+            // make sure to redraw the stage to show the change:
+            stage.update();
+        });
 
         dragger.on("pressup", function (evt) {
             console.log("fuck");
@@ -90,6 +97,14 @@
         d2.on("mouseover", function (evt) {
             // currentTarget will be the container that the event listener was added to:
             this.alpha = 0.2;
+            // make sure to redraw the stage to show the change:
+            stage.update();
+        });
+
+        d2.on("mouseout", function (evt) {
+//            this.x = evt.stageX;
+//            this.y = evt.stageY;
+            this.alpha = 1;
             // make sure to redraw the stage to show the change:
             stage.update();
         });
