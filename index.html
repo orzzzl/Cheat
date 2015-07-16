@@ -33,49 +33,64 @@
 <body onload="initt()">
 <script>
 
-        var stage, output;
+    var stage, output;
 
-            function initt ()  {
-            stage = new createjs.Stage("demoCanvass");
-                // enable touch interactions if supported on the current device:
-                createjs.Touch.enable(stage);
+    function initt() {
+        stage = new createjs.Stage("demoCanvass");
+        // enable touch interactions if supported on the current device:
+        createjs.Touch.enable(stage);
 
-                // enabled mouse over / out events
-                stage.enableMouseOver(10);
+        // enabled mouse over / out events
+        stage.enableMouseOver(10);
 
-            // this lets our drag continue to track the mouse even when it leaves the canvas:
-            // play with commenting this out to see the difference.
-            stage.mouseMoveOutside = true;
+        // this lets our drag continue to track the mouse even when it leaves the canvas:
+        // play with commenting this out to see the difference.
+        stage.mouseMoveOutside = true;
 
-            var circle = new createjs.Shape();
-            circle.graphics.beginFill("red").drawCircle(0, 0, 50);
+        var circle = new createjs.Shape();
+        circle.graphics.beginFill("red").drawCircle(0, 0, 50);
 
-            var label = new createjs.Text("drag me", "bold 14px Arial", "#FFFFFF");
-            label.textAlign = "center";
-            label.y = -7;
+        var label = new createjs.Text("drag me", "bold 14px Arial", "#FFFFFF");
+        label.textAlign = "center";
+        label.y = -7;
 
-            var dragger = new createjs.Container();
-            dragger.x = dragger.y = 100;
-            dragger.addChild(circle, label);
-            stage.addChild(dragger);
+        var dragger = new createjs.Container();
+        dragger.x = dragger.y = 100;
+        dragger.addChild(circle, label);
+        stage.addChild(dragger);
 
-            dragger.on("pressmove",function(evt) {
-                // currentTarget will be the container that the event listener was added to:
-                this.x = evt.stageX;
-                this.y = evt.stageY;
-                // make sure to redraw the stage to show the change:
-                stage.update();
-            });
-
-           dragger.on("pressup", function (evt) {
-               console.log ("fuck");
-           });
-
+        dragger.on("pressmove", function (evt) {
+            stage.getObjectUnderPoint().x = evt.stageX;
+            stage.getObjectUnderPoint().y = evt.stageY;
+            // make sure to redraw the stage to show the change:
             stage.update();
-        }
+        });
+
+        dragger.on("pressup", function (evt) {
+            console.log("fuck");
+        });
+
+        var d2 = new createjs.Shape();
+        d2.graphics.beginFill("black").drawCircle(0, 0, 50);
+        d2.x = 200;
+        d2.y = 200;
+        d2.on("pressmove", function (evt) {
+            // currentTarget will be the container that the event listener was added to:
+            stage.getObjectUnderPoint().x = evt.stageX;
+            stage.getObjectUnderPoint().y = evt.stageY;
+            // make sure to redraw the stage to show the change:
+            stage.update();
+        });
+
+        d2.on("pressup", function (evt) {
+            console.log("fuck2");
+        });
+        stage.addChild (d2);
+        stage.update();
+    }
 
 </script>
-<canvas id="demoCanvass" width="500" height="200">
+<canvas id="demoCanvass" width="500" height="500">
     alternate content
 </canvas>
 </body>
