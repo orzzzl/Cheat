@@ -8,9 +8,6 @@ angular.module('myApp')
             resizeGameAreaService, $translate) {
     'use strict';
 
-
-    $log.info($translate('NEW_TO_CHEAT')); // Example of using $translate
-
     // TODO: choose your width-to-height ratio (1 means the board is square).
     resizeGameAreaService.setWidthToHeight(0.6);
 
@@ -94,10 +91,7 @@ angular.module('myApp')
       var isComputerTurn = canMakeMove &&
       params.playersInfo[params.yourPlayerIndex].playerId === '';
 
-      // In case the board is not updated
-      //if (!$scope.$$phase) {
-      //  $scope.$apply();
-      //}
+
       if (params.playMode === 'playAgainstTheComputer' && ($scope.currIndex != 0))
           canMakeMove = false;
 
@@ -119,8 +113,8 @@ angular.module('myApp')
           case STAGE.CHECK_CLAIM:
           console.log ("check claim");
           $scope.ifCheat = true;
-          $scope.resultMessage = "player " + $scope.currIndex + ": ";
-          $scope.resultMessage += gameLogic.didCheat($scope.state) ? "Cheat call success!" : "Cheat call fails!";
+          $scope.resultMessage = $translate('PLAYER') + $scope.currIndex + ": ";
+          $scope.resultMessage += gameLogic.didCheat($scope.state) ? $translate('SUC') : $translate('FAIL');
             checkDeclaration();
             break;
           default:
@@ -131,8 +125,8 @@ angular.module('myApp')
         canMakeMove = false;
         if ($scope.state.stage === STAGE.CHECK_CLAIM) {
           $scope.ifCheat = true;
-          $scope.resultMessage = "player " + $scope.currIndex + ": ";
-          $scope.resultMessage += gameLogic.didCheat($scope.state) ? "Cheat call success!" : "Cheat call fails!";
+          $scope.resultMessage = $translate('PLAYER') + $scope.currIndex + ": ";
+          $scope.resultMessage += gameLogic.didCheat($scope.state) ? $translate('SUC') : $translate('FAIL');
         }
         sendComputerMove();
       }
@@ -170,12 +164,12 @@ angular.module('myApp')
 
 
     function createClaimEnv() {
-      createButton ("Cancel", 400, bottomPos - 100, resetAll);
-      createButton("Make Claim", 200, bottomPos - 100, Claim);
-      hideButton("Make Claim");
+      createButton ($translate('CANCEL'), 400, bottomPos - 100, resetAll);
+      createButton($translate('MKCLAIM'), 200, bottomPos - 100, Claim);
+      hideButton($translate('MKCLAIM'));
       createOpts ();
       hideButton("ops");
-      showButton("Cancel");
+      showButton($translate('CANCEL'));
       updateStage();
     };
 
@@ -189,7 +183,7 @@ angular.module('myApp')
       var background = new createjs.Shape ();
       background.graphics.beginFill("#006400").drawRect(0, 600, 600, 800);
 
-      var message = $scope.state.claim [0] + " cards claimed to be " + $scope.state.claim [1] + "\n\n What do you think ?";
+      var message = $scope.state.claim [0] + $translate('M1') + $scope.state.claim [1] + $translate('M2');
       var label = new createjs.Text (message, "bold 40px 'Shadows Into Light'", "#FFFFFF");
       label.textAlign = "center";
       label.textBaseline = "middle";
@@ -199,15 +193,12 @@ angular.module('myApp')
       panel.addChild(background, label);
       stage.addChild(panel);
 
-      createButton ("BullSh ! t", 100, 800, function () {
-       //$scope.isHelpModalShown = true;
-       //console.log (angular.element (document.querySelector( '#myModal' ) )); //.modal ('show');
-       // angular.element (document.querySelector( '#myModal' )).modal();
-      //{declare (true);});
+      createButton ($translate('BULLSHIT'), 100, 800, function () {
         $scope.sureToClaim = true;
         $scope.$apply();
       });
-      createButton ("Pass", 350, 800, function () {$scope.declare (false);});
+
+      createButton ($translate('PASS'), 350, 800, function () {$scope.declare (false);});
       updateStage()
     }
 
@@ -223,11 +214,16 @@ angular.module('myApp')
 
 
     function showPlayerIndex (turnIndex) {
-      var message = "Player turn index: " + turnIndex;
+      var message = $translate('PTI') + turnIndex;
       var label = new createjs.Text (message, "bold 35px 'Shadows Into Light'", "#FFFFFF");
       label.x = 50;
       label.y = 20;
-      stage.addChild(label);
+      var c = ($scope.state.claim === undefined || $scope.state.claim [1] === undefined ? "" : $scope.state.claim [1]);
+      var claimMessage = $translate('LAST') + c;
+      var label2 = new createjs.Text (claimMessage, "bold 35px 'Shadows Into Light'", "#FFFFFF");
+      label2.x = 300;
+      label2.y = 20;
+      stage.addChild(label, label2);
     }
 
     // Check the declaration
@@ -307,7 +303,7 @@ angular.module('myApp')
 
     function Claim () {
       cardsClickable = 0;
-      hideButton("Make Claim");
+      hideButton($translate('MKCLAIM'));
       showButton("ops");
       console.log (claimCards);
       showSelectionPanel ();
@@ -483,7 +479,7 @@ angular.module('myApp')
         cardsCnt --;
         return;
       }
-      showButton("Make Claim");
+      showButton($translate('MKCLAIM'));
       hideButton("ops");
       hideSelctionPanel ();
       image.y -= 30;
@@ -499,9 +495,9 @@ angular.module('myApp')
       hideSelctionPanel ()
       cardsCnt --;
       if (cardsCnt === 0)
-        hideButton("Make Claim");
+        hideButton($translate('MKCLAIM'));
       else
-        showButton("Make Claim");
+        showButton($translate('MKCLAIM'));
       image.y += 30;
       image.clicked = 0;
       rmFromMiddle(image.name);
