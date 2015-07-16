@@ -59,6 +59,12 @@
         dragger.addChild(circle, label);
         stage.addChild(dragger);
 
+        dragger.on ("mousedown", function (evt){
+            //            this.y = evt.stageY;
+            this.alpha = 0.2;
+            // make sure to redraw the stage to show the change:
+            stage.update();
+        });
         dragger.on("mouseover", function (evt) {
 //            this.x = evt.stageX;
 //            this.y = evt.stageY;
@@ -75,6 +81,12 @@
         d2.graphics.beginFill("black").drawCircle(0, 0, 50);
         d2.x = 200;
         d2.y = 200;
+        d2.on ("mousedown", function (evt){
+            //            this.y = evt.stageY;
+            this.alpha = 0.2;
+            // make sure to redraw the stage to show the change:
+            stage.update();
+        });
         d2.on("mouseover", function (evt) {
             // currentTarget will be the container that the event listener was added to:
             this.alpha = 0.2;
