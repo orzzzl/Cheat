@@ -385,12 +385,20 @@ angular.module('myApp')
         var x = start - interPos;
         var y = bottomPos;
         for (var i = 0; i < n; i ++) {
+          var cardType = 1;
           x += interPos;
           if (i === limit || i === limit * 2 || i === limit * 3) {
             x = start;
             y += 50;
           }
-          addpic(mycardsVal [i], x, y);
+          var tmpi = i + 1;
+          if (tmpi === limit || i === limit * 2 || i === limit * 3) {
+            cardType = 2;
+          }
+          if (i + limit < n) {
+            cardType = 3;
+          }
+          addpic(mycardsVal [i], x, y, cardType);
         }
     }
 
@@ -407,7 +415,7 @@ angular.module('myApp')
           x = start;
           y += 50;
         }
-        addpic("qb1fv", x, y);
+        addpic("qb1fv", x, y, 1);
       }
     }
 
@@ -425,7 +433,7 @@ angular.module('myApp')
           x = start;
           y += 50;
         }
-        addpic("qb1fh", x, y);
+        addpic("qb1fh", x, y, 1);
       }
     }
 
@@ -543,7 +551,7 @@ angular.module('myApp')
 
 
 
-    function addpic (i, _x, _y) {
+    function addpic (i, _x, _y, cardType) {
       var tmpImg = new Image();
       var baseHead = "imgs/cards/";
       var baseTail = ".png";
@@ -557,13 +565,14 @@ angular.module('myApp')
       image.scaleX = 2.0;
       image.scaleY = 2.0;
       image.name = i;
+      image.cardType = cardType;
       image.clicked = 0;
       image.on("pressmove", function (evt){
+        if (image.name === "qb1fv" || image.name === "qb1fh")  return;
         ball.x = evt.stageX;
         ball.y = evt.stageY;
         ball.visible = true;
         image.alpha = 0.2;
-        //if (image.name === "qb1fv")  return;
         //if (cardsClickable === 0)    return;
         //if (image.clicked === 0) {
         //  setcard(image);
@@ -574,12 +583,20 @@ angular.module('myApp')
       });
 
       image.on ("tick", function (evt) {
+        if (image.name === "qb1fv" || image.name === "qb1fh")  return;
         if (ball === undefined)    return;
         if (ball.visible === false) {
           image.alpha = 1;
           return;
         }
-        if (Math.abs (image.x - ball.x) <= 10) {
+        if (image.cardType === 3) {
+          if (ball.y > image.y && ball.y < image.y + 50 && Math.abs (image.x - ball.x) <= 10)
+            image.alpha = 0.2;
+          else
+            image.alpha = 1;
+          return;
+        }
+        if ((ball.y >= image.y && Math.abs (image.x - ball.x) <= 10) || (image.cardType === 2 && ball.x > image.x)) {
           image.alpha = 0.2;
         } else {
           image.alpha = 1;
