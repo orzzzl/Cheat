@@ -27,8 +27,7 @@ angular.module('myApp')
     var claimCards = [];
     var STAGE = gameLogic.STAGE;
     var ball;
-
-    stage = new createjs.Stage("demoCanvass");
+    
     stage.enableDOMEvents(true);
 
     // enable touch interactions if supported on the current device:
