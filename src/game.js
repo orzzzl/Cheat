@@ -578,6 +578,10 @@ angular.module('myApp')
       image.name = i;
       image.cardType = cardType;
       image.clicked = 0;
+      image.on("click", function () {
+        if (image.name === "qb1fv" || image.name === "qb1fh")  return;
+        selectCard(image);
+      });
       image.on("pressmove", function (evt){
         if (image.name === "qb1fv" || image.name === "qb1fh")  return;
         ball.x = evt.stageX;
