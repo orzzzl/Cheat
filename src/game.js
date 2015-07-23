@@ -339,7 +339,10 @@ angular.module('myApp')
       });
       stage.on ("pressup", function (evt) {
         ball.visible = false;
-        console.log ("dasdasd");
+        for (var i = 0; i < mycards.length; i ++) {
+            if (mycards [i].alpha === 0.2)
+                selectCard(mycards [i]);
+        }
         updateStage();
       });
       stage.addChild(ball);
@@ -550,6 +553,14 @@ angular.module('myApp')
     }
 
 
+    function selectCard (card) {
+      if (cardsClickable === 0)    return;
+      if (card.clicked === 0) {
+        setcard(card);
+      } else {
+        clearcard(card);
+      }
+    }
 
     function addpic (i, _x, _y, cardType) {
       var tmpImg = new Image();
@@ -590,8 +601,9 @@ angular.module('myApp')
           return;
         }
         if (image.cardType === 3) {
-          if (ball.y > image.y && ball.y < image.y + 50 && Math.abs (image.x - ball.x) <= 10)
+          if (ball.y > image.y && ball.y < image.y + 50 && Math.abs (image.x - ball.x) <= 10) {
             image.alpha = 0.2;
+          }
           else
             image.alpha = 1;
           return;
