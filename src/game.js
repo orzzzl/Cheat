@@ -547,6 +547,7 @@ angular.module('myApp')
       image.name = i;
       image.clicked = 0;
       image.on("pressmove", function (evt){
+        alert ("works");
         ball.x = evt.stageX;
         ball.y = evt.stageY;
         ball.visible = true;
