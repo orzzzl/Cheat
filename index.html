@@ -37,11 +37,13 @@
 
     function initt() {
         stage = new createjs.Stage("demoCanvass");
+        stage.enableDOMEvents(true);
+
         // enable touch interactions if supported on the current device:
         createjs.Touch.enable(stage);
 
         // enabled mouse over / out events
-        stage.enableMouseOver(10);
+//        stage.enableMouseOver(10);
 
         // this lets our drag continue to track the mouse even when it leaves the canvas:
         // play with commenting this out to see the difference.
@@ -113,6 +115,10 @@
 
         createjs.Ticker.on ("tick", tick);
         stage.addChild (d2);
+        stage.on("tick", function(evt) {
+            console.log ("dsad");
+            alert("the canvas was clicked at "+evt.stageX+","+evt.stageY);
+        })
         stage.update();
     }
 

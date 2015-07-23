@@ -26,7 +26,7 @@ angular.module('myApp')
     var cardsClickable = 1;
     var claimCards = [];
     var STAGE = gameLogic.STAGE;
-
+    var ball;
 
     function updateUI(params) {
       $scope.state = params.stateAfterMove;
@@ -104,6 +104,7 @@ angular.module('myApp')
             createClaimEnv ();
             createSelectionPanel ();
             updateClaimRanks();
+            createBall ();
             break;
           case STAGE.DECLARE_CHEATER:
             createDecEnv ();
@@ -313,6 +314,23 @@ angular.module('myApp')
     function showSelectionPanel () {
       for (var i = 0; i < claimCards.length; i ++)
         showButton(claimCards [i]);
+    }
+
+    function createBall () {
+      ball = new createjs.Shape();
+      ball.graphics.beginFill("orange").drawCircle(0, 0, 10);
+      ball.visible = false;
+      ball.on ("pressmove", function (evt){
+        this.y = evt.stageY;
+        this.x = evt.stageX;
+        stage.update();
+      });
+      stage.on ("pressup", function (evt) {
+        ball.visible = false;
+        console.log ("dasdasd");
+        updateStage();
+      });
+      stage.addChild(ball);
     }
 
     function createSelectionPanel () {
@@ -528,15 +546,32 @@ angular.module('myApp')
       image.scaleY = 2.0;
       image.name = i;
       image.clicked = 0;
-      image.on("click", function (){
-        if (image.name === "qb1fv")  return;
-        if (cardsClickable === 0)    return;
-        if (image.clicked === 0) {
-          setcard(image);
-        } else {
-          clearcard(image);
-        }
+      image.on("pressmove", function (evt){
+        ball.x = evt.stageX;
+        ball.y = evt.stageY;
+        ball.visible = true;
+        image.alpha = 0.2;
+        //if (image.name === "qb1fv")  return;
+        //if (cardsClickable === 0)    return;
+        //if (image.clicked === 0) {
+        //  setcard(image);
+        //} else {
+        //  clearcard(image);
+        //}
         updateStage();
+      });
+
+      image.on ("tick", function (evt) {
+        if (ball === undefined)    return;
+        if (ball.visible === false) {
+          image.alpha = 1;
+          return;
+        }
+        if (Math.abs (image.x - ball.x) <= 10) {
+          image.alpha = 0.2;
+        } else {
+          image.alpha = 1;
+        }
       });
       mycards.push (image);
       stage.addChild(image);
