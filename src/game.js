@@ -28,6 +28,19 @@ angular.module('myApp')
     var STAGE = gameLogic.STAGE;
     var ball;
 
+    stage = new createjs.Stage("demoCanvass");
+    stage.enableDOMEvents(true);
+
+    // enable touch interactions if supported on the current device:
+    createjs.Touch.enable(stage);
+
+    // enabled mouse over / out events
+    stage.enableMouseOver(10);
+
+    // this lets our drag continue to track the mouse even when it leaves the canvas:
+    // play with commenting this out to see the difference.
+    stage.mouseMoveOutside = true;
+
     function updateUI(params) {
       $scope.state = params.stateAfterMove;
       // If the state is empty, first initialize the board...
