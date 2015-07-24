@@ -367,7 +367,8 @@
         {set: {key: 'middle', value: [] }},
         {set: {key: 'stage', value: gameLogic.STAGE.DO_CLAIM }},
         {setVisibility: {key: 'card26', visibleToPlayerIndexes: [1]}},
-        {setVisibility: {key: 'card39', visibleToPlayerIndexes: [1]}}
+        {setVisibility: {key: 'card39', visibleToPlayerIndexes: [1]}},
+        {set: {key: 'claim', value: []}}
       ]);
     });
 
@@ -384,7 +385,8 @@
         {set: {key: 'middle', value: [] }},
         {set: {key: 'stage', value: gameLogic.STAGE.DO_CLAIM }},
         {setVisibility: {key: 'card26', visibleToPlayerIndexes: [0]}},
-        {setVisibility: {key: 'card39', visibleToPlayerIndexes: [0]}}
+        {setVisibility: {key: 'card39', visibleToPlayerIndexes: [0]}},
+        {set: {key: 'claim', value: []}}
       ]);
     });
 
@@ -396,7 +398,9 @@
       defaultState.stage = gameLogic.STAGE.END;
 
       expectMoveOk(0, defaultState,[
-        {endMatch: {endMatchScores: [1, 0]}}
+        {endMatch: {endMatchScores: [1, 0]}},
+        {set: {key: 'middle', value: []}},
+        {set: {key: 'stage', value: "END"}}
       ]);
     });
 

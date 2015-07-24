@@ -28,7 +28,7 @@ angular.module('myApp')
     var claimCards = [];
     var STAGE = gameLogic.STAGE;
     var ball;
-
+    var claimBuffer;
 
     stage.enableDOMEvents(true);
 
@@ -208,8 +208,7 @@ angular.module('myApp')
       stage.addChild(panel);
 
       createButton ($translate('BULLSHIT'), 100, 800, function () {
-        $scope.sureToClaim = true;
-        $scope.$apply();
+        $scope.declare(true);
       });
 
       createButton ($translate('PASS'), 350, 800, function () {$scope.declare (false);});
@@ -324,6 +323,8 @@ angular.module('myApp')
       updateStage();
     }
 
+
+
     function showSelectionPanel () {
       for (var i = 0; i < claimCards.length; i ++)
         showButton(claimCards [i]);
@@ -367,7 +368,13 @@ angular.module('myApp')
     }
 
     function callback () {
-      var rank = ""  + this;
+      claimBuffer = this;
+      $scope.sureToClaim = true;
+      $scope.$apply();
+    }
+
+    $scope.makeACheat = function () {
+      var rank = ""  + claimBuffer;
       console.log ($scope.middle.clone ());
       var claim = [$scope.middle.length - $scope.state.middle.length, rank];
       var diffM = $scope.middle.clone();

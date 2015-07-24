@@ -11,7 +11,7 @@ window.angularTranslationsLoaded('en',{
 "MKCLAIM":"Make Claim",
 "CHEAT":"Cheat ",
 "SURE2":"Sure？",
-"AREYOUSURE":"Are you sure that you want to call a cheat?",
+"AREYOUSURE":"Are you sure that you want to cheat?",
 "PTI":"Player index:",
 "M1":" cards claimed to be ",
 "M2":"\n\n What do you think ?",
