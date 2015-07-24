@@ -29,6 +29,7 @@ angular.module('myApp')
     var STAGE = gameLogic.STAGE;
     var ball;
     var claimBuffer;
+    var middleCards = [];
 
     stage.enableDOMEvents(true);
 
@@ -339,7 +340,7 @@ angular.module('myApp')
         this.x = evt.stageX;
         stage.update();
       });
-      stage.on ("pressup", function (evt) {
+      stage.on ("pressup", function () {
         ball.visible = false;
         for (var i = 0; i < mycards.length; i ++) {
             if (mycards [i].alpha === 0.2)
@@ -369,8 +370,22 @@ angular.module('myApp')
 
     function callback () {
       claimBuffer = this;
-      $scope.sureToClaim = true;
-      $scope.$apply();
+      console.log (claimBuffer);
+      if (isACheat()) {
+        $scope.sureToClaim = true;
+        $scope.$apply();
+      } else {
+        $scope.makeACheat();
+      }
+    }
+
+    function isACheat () {
+      for (var i = 0; i < middleCards.length; i ++) {
+        var tmp = gameLogic.getCard(middleCards [i]) [1];
+        if (tmp !== claimBuffer)
+           return true;
+      }
+      return false;
     }
 
     $scope.makeACheat = function () {
@@ -532,8 +547,9 @@ angular.module('myApp')
       hideSelctionPanel ();
       image.y -= 30;
       image.clicked = 1;
+      middleCards.push (image.name);
       $scope.middle.push (nameToInd(image.name));
-      console.log ($scope.middle);
+      console.log (middleCards);
     }
 
     function clearcard (image) {

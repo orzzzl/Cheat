@@ -10,7 +10,7 @@ window.angularTranslationsLoaded('en',{
 "RESULT":"Result",
 "MKCLAIM":"Make Claim",
 "CHEAT":"Cheat ",
-"SURE2":"Sure？",
+"SURE2":"This is a Cheat!",
 "AREYOUSURE":"Are you sure that you want to cheat?",
 "PTI":"Player index:",
 "M1":" cards claimed to be ",
