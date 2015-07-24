@@ -34,7 +34,6 @@ angular.module('myApp')
 
     // enable touch interactions if supported on the current device:
     createjs.Touch.enable(stage);
-
     // enabled mouse over / out events
     stage.enableMouseOver(10);
 
@@ -509,7 +508,6 @@ angular.module('myApp')
     }
 
     function resetAll () {
-   //   $scope.middle = $scope.state.middle;
       cardsClickable = 1;
       for (var i = 0; i < mycards.length; i ++)
           clearcard(mycards [i]);
@@ -593,7 +591,7 @@ angular.module('myApp')
         updateStage();
       });
 
-      image.on ("tick", function (evt) {
+      image.on ("tick", function () {
         if (image.name === "qb1fv" || image.name === "qb1fh")  return;
         if (ball === undefined)    return;
         if (ball.visible === false) {
@@ -628,6 +626,7 @@ angular.module('myApp')
       mycards.push (image);
       stage.addChild(image);
     }
+
 
 
     gameService.setGame({
