@@ -14,6 +14,7 @@ angular.module('myApp')
     var bottomPos = 700;
     var middlePos = 400;
     var upperPos = 100;
+    var cardLength = 5;
     var canMakeMove = false;
     var state = null;
     var stage = new createjs.Stage("demoCanvas");
@@ -27,6 +28,7 @@ angular.module('myApp')
     var claimCards = [];
     var STAGE = gameLogic.STAGE;
     var ball;
+
 
     stage.enableDOMEvents(true);
 
@@ -395,13 +397,13 @@ angular.module('myApp')
             y += 50;
           }
           var tmpi = i + 1;
-          if (tmpi === limit || i === limit * 2 || i === limit * 3) {
+          if (tmpi === limit || i === limit * 2 || i === limit * 3 || i === n - 1) {
             cardType = 2;
           }
-          if (i + limit < n) {
+          if (i + limit < n + cardLength) {
             cardType = 3;
           }
-          addpic(mycardsVal [i], x, y, cardType);
+          addpic(mycardsVal [i], x, y, cardType, limit, i);
         }
     }
 
@@ -418,7 +420,7 @@ angular.module('myApp')
           x = start;
           y += 50;
         }
-        addpic("qb1fv", x, y, 1);
+        addpic("qb1fv", x, y, 1, limit, i);
       }
     }
 
@@ -436,7 +438,7 @@ angular.module('myApp')
           x = start;
           y += 50;
         }
-        addpic("qb1fh", x, y, 1);
+        addpic("qb1fh", x, y, 1, limit, i);
       }
     }
 
@@ -562,7 +564,7 @@ angular.module('myApp')
       }
     }
 
-    function addpic (i, _x, _y, cardType) {
+    function addpic (i, _x, _y, cardType, limit, ind) {
       var tmpImg = new Image();
       var baseHead = "imgs/cards/";
       var baseTail = ".png";
@@ -588,12 +590,6 @@ angular.module('myApp')
         ball.y = evt.stageY;
         ball.visible = true;
         image.alpha = 0.2;
-        //if (cardsClickable === 0)    return;
-        //if (image.clicked === 0) {
-        //  setcard(image);
-        //} else {
-        //  clearcard(image);
-        //}
         updateStage();
       });
 
@@ -605,14 +601,25 @@ angular.module('myApp')
           return;
         }
         if (image.cardType === 3) {
-          if (ball.y > image.y && ball.y < image.y + 50 && Math.abs (image.x - ball.x) <= 10) {
+          var cardBelowHeight;
+          var targetInd = ind + limit;
+          if (targetInd >= mycardsVal.length && targetInd < mycardsVal.length + cardLength)
+              targetInd = mycardsVal.length - 1;
+          var cardBelow = stage.getChildByName ("" + mycardsVal [targetInd]);
+          if (cardBelow === undefined || cardBelow === null || cardBelow.clicked === 0) {
+            cardBelowHeight = 50;
+          } else {
+            cardBelowHeight = 20;
+          }
+          if (ball.y > image.y && ball.y < image.y + cardBelowHeight && Math.abs (image.x - ball.x) <= 10) {
             image.alpha = 0.2;
           }
           else
             image.alpha = 1;
           return;
         }
-        if ((ball.y >= image.y && Math.abs (image.x - ball.x) <= 10) || (image.cardType === 2 && ball.x > image.x)) {
+        if ((ball.y >= image.y && Math.abs (image.x - ball.x) <= 10) || (image.cardType === 2 &&
+                            ball.y >= image.y && ball.x > image.x && Math.abs(ball.x - image.x) <= 140)) {
           image.alpha = 0.2;
         } else {
           image.alpha = 1;
