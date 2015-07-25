@@ -8,7 +8,6 @@ angular.module('myApp')
             resizeGameAreaService, $translate) {
     'use strict';
 
-    // TODO: choose your width-to-height ratio (1 means the board is square).
     resizeGameAreaService.setWidthToHeight(0.6);
 
     var bottomPos = 700;
@@ -68,11 +67,11 @@ angular.module('myApp')
       $scope.middle = $scope.state.middle.clone();
       turnIndex = params.turnIndexAfterMove;
       clearEverything ();
-      if ($scope.currIndex === 0) {// || ($scope.currIndex === 0 && params.playMode === 'passAndPlay')) {
+      if ($scope.currIndex === 0) {
         // If the game is played in the same device, use the default setting
         $scope.playerOneCards = $scope.state.white.clone();
         $scope.playerTwoCards = $scope.state.black.clone();
-      } else if ($scope.currIndex === 1) {//if (params.playMode === 'passAndPlay' && $scope.currIndex === 1) {
+      } else if ($scope.currIndex === 1) {
         $scope.playerOneCards = $scope.state.black.clone();
         $scope.playerTwoCards = $scope.state.white.clone();
       } else {
@@ -169,7 +168,8 @@ angular.module('myApp')
       cardsCnt = 0;
       mycards = [];
       buttons = {};
-      mycardsVal= [];
+      mycardsVal = [];
+      middleCards = [];
       cardsClickable = 1;
       claimCards = [];
       stage.removeAllChildren ();
@@ -571,6 +571,7 @@ angular.module('myApp')
       var t = nameToInd(i);
       for (var j = 0; j < $scope.middle.length; j ++) {
         if ($scope.middle [j] === t)    $scope.middle.splice(j, 1);
+        if (middleCards [j] === i)    middleCards.splice(j, 1);
       }
       console.log ($scope.middle);
     }
