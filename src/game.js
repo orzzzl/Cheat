@@ -418,11 +418,11 @@ angular.module('myApp')
             y += 50;
           }
           var tmpi = i + 1;
+          if (i + limit < n + cardLength && (parseInt((n - 1) / limit) !== parseInt(i / limit))) {
+            cardType = 3;
+          }
           if (tmpi === limit || tmpi === limit * 2 || tmpi === limit * 3 || i === n - 1) {
             cardType = 2;
-          }
-          if (i + limit < n + cardLength) {
-            cardType = 3;
           }
           addpic(mycardsVal [i], x, y, cardType, limit, i);
         }
