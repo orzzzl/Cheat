@@ -29,6 +29,7 @@ angular.module('myApp')
     var ball;
     var claimBuffer;
     var middleCards = [];
+    var interPos;
 
     stage.enableDOMEvents(true);
 
@@ -409,7 +410,7 @@ angular.module('myApp')
         var n = mycardsVal.length;
         var start = 10;
         var end = 480;
-        var interPos = (end - start) / (n > limit ? limit : n);
+        interPos = (end - start) / (n > limit ? limit : n);
         var x = start - interPos;
         var y = bottomPos;
         for (var i = 0; i < n; i ++) {
@@ -635,14 +636,14 @@ angular.module('myApp')
           } else {
             cardBelowHeight = 20;
           }
-          if (ball.y > image.y && ball.y < image.y + cardBelowHeight && Math.abs (image.x - ball.x) <= 10) {
+          if (ball.y > image.y && ball.y < image.y + cardBelowHeight && Math.abs (image.x - ball.x) <= interPos / 2) {
             image.alpha = 0.2;
           }
           else
             image.alpha = 1;
           return;
         }
-        if ((ball.y >= image.y && Math.abs (image.x - ball.x) <= 10) || (image.cardType === 2 &&
+        if ((ball.y >= image.y && Math.abs (image.x - ball.x) <= interPos / 2) || (image.cardType === 2 &&
                             ball.y >= image.y && ball.x > image.x && Math.abs(ball.x - image.x) <= 140)) {
           image.alpha = 0.2;
         } else {
