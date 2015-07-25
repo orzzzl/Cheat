@@ -381,8 +381,10 @@ angular.module('myApp')
 
     function isACheat () {
       for (var i = 0; i < middleCards.length; i ++) {
-        var tmp = gameLogic.getCard(middleCards [i]) [1];
-        if (tmp !== claimBuffer)
+        var tmp = gameLogic.getCard(middleCards [i]);
+        if (tmp.length === 3 && claimBuffer === "10")    //if they are both "10";
+           continue;
+        if (tmp [1] !== claimBuffer)
            return true;
       }
       return false;
