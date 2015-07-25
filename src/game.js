@@ -418,7 +418,7 @@ angular.module('myApp')
             y += 50;
           }
           var tmpi = i + 1;
-          if (tmpi === limit || i === limit * 2 || i === limit * 3 || i === n - 1) {
+          if (tmpi === limit || tmpi === limit * 2 || tmpi === limit * 3 || i === n - 1) {
             cardType = 2;
           }
           if (i + limit < n + cardLength) {
