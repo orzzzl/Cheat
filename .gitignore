@@ -1,3 +1,5 @@
 coverage
 node_modules
+.idea
+imgs/cards/rename.sh
 
