@@ -13,6 +13,8 @@ var game;
     ;
     function createDecEnv() {
         createDecPanel();
+        //clearEverything ();
+        //showSelectionPanel ();
     }
     game.createDecEnv = createDecEnv;
     function createDecPanel() {
@@ -125,6 +127,7 @@ var game;
         }
         else {
             makeACheat();
+            game.clearEverything();
         }
     }
     game.callback = callback;
@@ -133,7 +136,7 @@ var game;
             var tmp = gameLogic.getCard(game.middleCards[i]);
             if (tmp.length === 3 && game.claimBuffer === "10")
                 continue;
-            if (tmp[1] !== game.claimBuffer)
+            if (tmp[1] !== game.claimBuffer[0])
                 return true;
         }
         return false;
@@ -487,7 +490,6 @@ var game;
                     game.resultMessage += gameLogic.didCheat(game.state) ? translate('SUC') : translate('FAIL');
                     game.checkDeclaration();
                     break;
-                default:
             }
         }
         if (isComputerTurn) {
@@ -578,7 +580,6 @@ var game;
     }
     game.updateClaimRanks = updateClaimRanks;
     function clearEverything() {
-        game.turnIndex = null;
         game.cardsCnt = 0;
         game.mycards = [];
         game.buttons = {};

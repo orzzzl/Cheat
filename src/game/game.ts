@@ -103,7 +103,6 @@ module game {
         resultMessage += gameLogic.didCheat(state) ? translate('SUC') : translate('FAIL');
         checkDeclaration();
         break;
-        default:
       }
     }
 

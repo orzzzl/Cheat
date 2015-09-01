@@ -12,6 +12,8 @@ module game {
 
   export function createDecEnv () {
     createDecPanel ();
+    //clearEverything ();
+    //showSelectionPanel ();
   }
 
   export function createDecPanel () {
@@ -124,8 +126,10 @@ module game {
     console.log (claimBuffer);
     if (isACheat()) {
       sureToClaim = true;
+      // $scope.$apply();
     } else {
       makeACheat();
+      clearEverything();
     }
   }
 
@@ -134,7 +138,7 @@ module game {
       var tmp = gameLogic.getCard(middleCards [i]);
       if (tmp.length === 3 && claimBuffer === "10")    //if they are both "10";
       continue;
-      if (tmp [1] !== claimBuffer)
+      if (tmp [1] !== claimBuffer [0])
       return true;
     }
     return false;

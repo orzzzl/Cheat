@@ -69,7 +69,6 @@ module game {
   }
 
   export function clearEverything () {
-    turnIndex = null;
     cardsCnt = 0;
     mycards = [];
     buttons = {};

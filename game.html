@@ -115,12 +115,12 @@
     </div>
 </div>
 
-<div class="overlayModal" ng-class="{zeroOpacity: !sureToClaim, oneOpacity: sureToClaim}" aria-hidden="true">
+<div class="overlayModal" ng-class="{zeroOpacity: !game.sureToClaim, oneOpacity: game.sureToClaim}" aria-hidden="true">
     <div class="modal-backdrop in"></div>
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" ng-click="sureToClaim = false" aria-label="Close"><span
+                <button type="button" class="close" ng-click="game.sureToClaim = false" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabelClaim">
                     {{'SURE2' | translate}}
@@ -134,10 +134,10 @@
                 </carousel>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" ng-click="sureToClaim = false; makeACheat();">
+                <button type="button" class="btn btn-primary" ng-click="game.sureToClaim = false; game.makeACheat();">
                     {{ 'SURE' | translate }}
                 </button>
-                <button type="button" class="btn btn-primary" ng-click="sureToClaim = false">
+                <button type="button" class="btn btn-primary" ng-click="game.sureToClaim = false">
                     {{ 'CANCEL' | translate }}
                 </button>
             </div>
@@ -145,12 +145,12 @@
     </div>
 </div>
 
-<div class="overlayModal" ng-class="{zeroOpacity: !ifCheat, oneOpacity: ifCheat}" aria-hidden="true">
+<div class="overlayModal" ng-class="{zeroOpacity: !game.ifCheat, oneOpacity: game.ifCheat}" aria-hidden="true">
     <div class="modal-backdrop in"></div>
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" ng-click="ifCheat = false" aria-label="Close"><span
+                <button type="button" class="close" ng-click="game.ifCheat = false" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabelIfCheat">
                     {{'RESULT' | translate}}
@@ -159,13 +159,13 @@
             <div class="modal-body">
                 <carousel style="height: 50px">
                     <slide>
-                        {{resultMessage}}
+                        {{game.resultMessage}}
                     </slide>
                 </carousel>
             </div>
             <div class="modal-footer">
 
-                <button type="button" class="btn btn-primary" ng-click="ifCheat = false">
+                <button type="button" class="btn btn-primary" ng-click="game.ifCheat = false">
                     {{ 'CLOSE' | translate }}
                 </button>
             </div>
