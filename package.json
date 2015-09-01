@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "name": "Game",
+  "name": "Cheat",
   "main": "game.html",
   "devDependencies": {
     "grunt": "~0.4.5",

@@ -11,9 +11,12 @@ module.exports = function(config) {
       'http://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-touch.js',
       'http://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.12.1/ui-bootstrap-tpls.js',
       'http://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-mocks.js',
-      'src/gameLogic.js', // Defines myApp module, so needs to come before other services (turnBasedServices, aiService, etc)
-      'http://yoav-zibin.github.io/emulator/dist/turnBasedServices.2.js',
-      'src/gameLogic_test.js'
+      'ts_output_readonly_do_NOT_change_manually/gameLogic.js',
+    //  'ts_output_readonly_do_NOT_change_manually/game.js',
+    //  'ts_output_readonly_do_NOT_change_manually/src/aiService.js',
+      // 'http://yoav-zibin.github.io/emulator/dist/turnBasedServices.3.js',
+      'ts_output_readonly_do_NOT_change_manually/gameLogic_test.js',
+    //  'ts_output_readonly_do_NOT_change_manually/src/aiService_test.js'
     ],
 
     reporters: ['progress', 'coverage'],
@@ -22,7 +25,7 @@ module.exports = function(config) {
       // source files, that you wanna generate coverage for
       // do not include tests or libraries
       // (these files will be instrumented by Istanbul)
-      'src/gameLogic.js': ['coverage']
+      //'ts_output_readonly_do_NOT_change_manually/gameLogic.js': ['coverage']
     },
 
     // optionally, configure the reporter
@@ -42,6 +45,5 @@ module.exports = function(config) {
             'karma-jasmine',
             'karma-coverage'
             ]
-
   });
 };
