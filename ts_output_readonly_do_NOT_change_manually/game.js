@@ -430,8 +430,6 @@ var game;
         });
     }
     game.init = init;
-    function sendComputerMove() {
-    }
     function updateUI(params) {
         game.stage = new createjs.Stage("demoCanvas");
         game.state = params.stateAfterMove;
@@ -482,6 +480,7 @@ var game;
                     game.createBall();
                     break;
                 case game.STAGE.DECLARE_CHEATER:
+                    game.mutex = 0;
                     game.createDecEnv();
                     console.log("declare cheater");
                     break;
@@ -501,7 +500,7 @@ var game;
                 game.resultMessage = translate('PLAYER') + game.turnIndex + ": ";
                 game.resultMessage += gameLogic.didCheat(game.state) ? translate('SUC') : translate('FAIL');
             }
-            sendComputerMove();
+            game.sendComputerMove();
         }
     }
     angular.module('myApp', ['ngTouch', 'ui.bootstrap'])
@@ -548,8 +547,12 @@ var game;
     game.checkEndGame = checkEndGame;
     // Declare a cheater or pass
     function declare(declareCheater) {
+        if (game.mutex === 1) {
+            return;
+        }
         var operations = gameLogic.getDeclareCheaterMove(game.state, game.turnIndex, declareCheater);
         gameService.makeMove(operations);
+        game.mutex = 1;
     }
     game.declare = declare;
     ;

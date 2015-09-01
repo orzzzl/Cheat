@@ -36,8 +36,12 @@ module game {
 
   // Declare a cheater or pass
   export function declare (declareCheater : any) {
+    if (mutex === 1) {
+      return;
+    }
     var operations = gameLogic.getDeclareCheaterMove(state, turnIndex, declareCheater);
-    gameService.makeMove(operations)
+    gameService.makeMove(operations);
+    mutex = 1;
   };
 
 

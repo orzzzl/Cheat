@@ -27,6 +27,7 @@ module game {
   export var middlePos = 400;
   export var upperPos = 100;
   export var cardLength = 5;
+  export var mutex : number;
 
   export function init() {
     console.log("initing");
@@ -37,10 +38,6 @@ module game {
       isMoveOk: gameLogic.isMoveOk,
       updateUI: updateUI
     });
-  }
-
-  function sendComputerMove() {
-
   }
 
   function updateUI(params: IUpdateUI): void {
@@ -93,6 +90,7 @@ module game {
         createBall ();
         break;
         case STAGE.DECLARE_CHEATER:
+        mutex = 0;
         createDecEnv ();
         console.log ("declare cheater");
         break;
