@@ -129,7 +129,6 @@ var game;
         }
         else {
             makeACheat();
-            game.clearEverything();
         }
     }
     game.callback = callback;
@@ -145,6 +144,7 @@ var game;
     }
     game.isACheat = isACheat;
     function makeACheat() {
+        game.clearEverything();
         var rank = "" + game.claimBuffer;
         console.log(game.middle.clone());
         var claim = [game.middle.length - game.state.middle.length, rank];

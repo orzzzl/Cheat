@@ -130,7 +130,6 @@ module game {
        $rootScope.$apply();
     } else {
       makeACheat();
-      clearEverything();
     }
   }
 
@@ -146,6 +145,7 @@ module game {
   }
 
   export function makeACheat () {
+    clearEverything();
     var rank = ""  + claimBuffer;
     console.log (middle.clone ());
     var claim = [middle.length - state.middle.length, rank];
