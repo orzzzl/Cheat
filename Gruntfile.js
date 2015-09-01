@@ -34,7 +34,7 @@ module.exports = function(grunt) {
           browser: false, element: false, by: false, // Protractor
         },
       },
-      all: ['Gruntfile.js', 'karma.conf.js', 'protractor.conf.js', 'src/*.js', 'languages/*.js']
+      all: ['Gruntfile.js', 'karma.conf.js', 'protractor.conf.js', 'ts_output_readonly_do_NOT_change_manually/*.js', 'languages/*.js']
     },
     karma: {
       unit: {
@@ -45,7 +45,7 @@ module.exports = function(grunt) {
     // Run karma and watch files using:
     // grunt karma:unit:start watch
     watch: {
-      files: ['src/*.js'],
+      files: ['ts_output_readonly_do_NOT_change_manually/*.js'],
       tasks: ['jshint', 'karma:unit:run']
     },
     concat: {
@@ -54,7 +54,7 @@ module.exports = function(grunt) {
       },
       dist: {
         // Order is important! gameLogic.js must be first because it defines the myApp angular module.
-        src: ['src/gameLogic.js', 'src/game.js'],
+        src: ['ts_output_readonly_do_NOT_change_manually/gameLogic.js', 'ts_output_readonly_do_NOT_change_manually/game.js'],
         dest: 'dist/everything.js',
       },
     },
