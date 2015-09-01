@@ -126,7 +126,8 @@ module game {
     console.log (claimBuffer);
     if (isACheat()) {
       sureToClaim = true;
-      // $scope.$apply();
+      //updateUI ();
+       $rootScope.$apply();
     } else {
       makeACheat();
       clearEverything();

@@ -124,6 +124,8 @@ var game;
         console.log(game.claimBuffer);
         if (isACheat()) {
             game.sureToClaim = true;
+            //updateUI ();
+            $rootScope.$apply();
         }
         else {
             makeACheat();
