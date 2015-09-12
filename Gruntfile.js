@@ -89,7 +89,7 @@ module.exports = function(grunt) {
             'http://fonts.gstatic.com/s/shadowsintolight/v6/clhLqOv7MXn459PTh0gXYKkG_nMAIv3PPZbC2XDns-o.woff2',
             'http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/fonts/glyphicons-halflings-regular.woff',
             'http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/fonts/glyphicons-halflings-regular.ttf',
-            'http://yoav-zibin.github.io/emulator/dist/turnBasedServices.2.min.js',
+            'http://yoav-zibin.github.io/emulator/dist/turnBasedServices.3.min.js',
             'http://yoav-zibin.github.io/emulator/main.css',
             'dist/everything.min.js',
             'imgs/cards/0.png',
@@ -153,8 +153,6 @@ module.exports = function(grunt) {
             'game.css'
           ],
           network: [
-            'languages/zh.js',
-            'languages/en.js',
             'dist/everything.min.js.map',
             'dist/everything.js'
           ],
