@@ -503,7 +503,7 @@ var game;
             game.sendComputerMove();
         }
     }
-    angular.module('myApp', ['ngTouch', 'ui.bootstrap'])
+    angular.module('myApp', ['ngTouch', 'ui.bootstrap', 'gameServices'])
         .run(['initGameServices', function (initGameServices) {
             $rootScope['game'] = game;
             translate.setLanguage('en', {

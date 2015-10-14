@@ -116,7 +116,7 @@ module game {
   }
 
 
-  angular.module('myApp', ['ngTouch', 'ui.bootstrap'])
+  angular.module('myApp', ['ngTouch', 'ui.bootstrap', 'gameServices'])
   .run(['initGameServices', function (initGameServices: any) {
     $rootScope['game'] = game;
     translate.setLanguage('en', {

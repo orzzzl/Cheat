@@ -262,6 +262,7 @@ var gameLogic;
      * Shuffle an array
      */
     function shuffle(array) {
+        console.log("shuffled");
         var i = array.length, j = 0, temp;
         while (i--) {
             j = Math.floor(Math.random() * (i + 1));
@@ -325,6 +326,7 @@ var gameLogic;
      * @returns {Array}
      */
     function getInitialMove() {
+        console.log("initial");
         var operations = [], white = [], black = [], setCards = [], setVisibilities = [], shuffleKeys = [], i;
         for (i = 0; i < 26; i++) {
             white[i] = i;
