@@ -117,7 +117,7 @@ module game {
 
 
   angular.module('myApp', ['ngTouch', 'ui.bootstrap', 'gameServices'])
-  .run(['initGameServices', function (initGameServices: any) {
+  .run(function () {
     $rootScope['game'] = game;
     translate.setLanguage('en', {
       "RULES_SLIDE1":"Cheat is a deception card game where the players aim to get rid of all of there cards.",
@@ -145,4 +145,4 @@ module game {
       "CLOSE":"Close"
     });
     game.init();
-  }]);
+  });
